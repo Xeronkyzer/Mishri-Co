@@ -1,0 +1,877 @@
+# ULTRA-DETAILED PROMPT: 3D PREMIUM INDIAN DAIRY BRAND — FULL E-COMMERCE WEBSITE
+## (Homepage + Product Pages + Cart + Profile + Settings + About + Contact)
+
+***
+
+> **ENGINE:** Three.js (r183) + GSAP 3 (ScrollTrigger + SplitText) + Lenis smooth scroll + Vanilla HTML/CSS/JS
+> **Stack:** Single-file HTML with ESM import maps. No build step. No framework. Pure craft.
+> **Target Viewport:** Desktop 1440px primary, 390px (mobile) secondary
+> **Routing:** Hash-based SPA (`#home`, `#products`, `#cart`, `#profile`, `#settings`)
+
+***
+
+# PART 1 — DESIGN SYSTEM & TOKENS
+
+## 1.1 Color Palette (OKLCH-based, warm Indian dairy tones)
+
+```css
+:root {
+  /* === SURFACES (warm cream progression) === */
+  --color-bg:              oklch(0.97 0.012 85);     /* #FAF6EE — Mishri Cream */
+  --color-surface:         oklch(0.98 0.009 82);     /* #FDF9F2 — Doodh White */
+  --color-surface-2:       oklch(0.96 0.014 80);     /* Slightly deeper cream */
+  --color-surface-offset:  oklch(0.93 0.018 78);     /* Warm parchment */
+  --color-surface-deep:    oklch(0.18 0.025 40);     /* #1E1510 — Night charcoal */
+
+  /* === TEXT === */
+  --color-text:            oklch(0.20 0.030 50);     /* #3B2A1A — Chandan Brown */
+  --color-text-muted:      oklch(0.50 0.022 65);     /* #7A7060 — Mitti Gray */
+  --color-text-faint:      oklch(0.72 0.014 70);     /* Dhoop Sand text */
+  --color-text-inverse:    oklch(0.97 0.010 80);     /* Light text on dark */
+
+  /* === PRIMARY ACCENT (Haldi Gold) === */
+  --color-primary:         oklch(0.62 0.135 68);     /* #C8860A — Turmeric/Ghee gold */
+  --color-primary-hover:   oklch(0.55 0.140 65);     /* Darker gold hover */
+  --color-primary-active:  oklch(0.48 0.130 62);     /* Deep pressed gold */
+  --color-primary-glow:    oklch(0.62 0.135 68 / 0.25);
+
+  /* === SECONDARY ACCENT (Kulfi Rose — ice cream only) === */
+  --color-rose:            oklch(0.62 0.120 22);     /* #D4716B — rose/terracotta */
+  --color-rose-hover:      oklch(0.55 0.125 20);
+
+  /* === 3D SPECIFIC === */
+  --color-3d-ambient:      oklch(0.62 0.135 68 / 0.08);  /* Subtle gold bounce light */
+  --color-3d-edge:         oklch(0.97 0.008 82 / 0.6);   /* Edge highlight on 3D objects */
+
+  /* === BORDERS & DIVIDERS === */
+  --color-border:          oklch(0.88 0.016 75);     /* Dhoop Sand */
+  --color-divider:         oklch(0.91 0.012 78);
+
+  /* === DARK MODE OVERRIDES === */
+}
+[data-theme="dark"] {
+  --color-bg:              oklch(0.13 0.022 40);
+  --color-surface:         oklch(0.16 0.020 42);
+  --color-surface-2:       oklch(0.18 0.018 44);
+  --color-surface-offset:  oklch(0.20 0.016 40);
+  --color-text:            oklch(0.92 0.012 78);
+  --color-text-muted:      oklch(0.60 0.018 70);
+  --color-primary:         oklch(0.72 0.140 72);     /* Brighter gold in dark mode */
+  --color-primary-glow:    oklch(0.72 0.140 72 / 0.30);
+  --color-border:          oklch(0.25 0.018 45);
+}
+```
+
+## 1.2 Typography
+
+**Two fonts only:**
+
+| Role | Font | CDN | Weights |
+|---|---|---|---|
+| Display/Headings | **Cormorant Garamond** | Google Fonts | 300, 400, 500 Italic, 600 |
+| Body/UI | **Satoshi** | Fontshare | 300, 400, 500, 700 |
+
+**Why this pairing:** Cormorant Garamond has extreme optical contrast — hairline-thin strokes next to thick ones — which gives 3D product headings a jewellery-catalogue refinement. Satoshi is geometric and neutral, reads cleanly at 12–16px on Indian Android screens without feeling cold.
+
+```css
+:root {
+  --font-display: 'Cormorant Garamond', 'Georgia', serif;
+  --font-body:    'Satoshi', 'Inter', sans-serif;
+}
+/* Type scale */
+--text-xs:    clamp(0.75rem,  0.7rem + 0.25vw, 0.875rem);   /* 12–14px */
+--text-sm:    clamp(0.875rem, 0.8rem + 0.35vw, 1rem);        /* 14–16px */
+--text-base:  clamp(1rem,     0.95rem + 0.25vw, 1.125rem);   /* 16–18px */
+--text-lg:    clamp(1.125rem, 1rem + 0.75vw, 1.5rem);        /* 18–24px */
+--text-xl:    clamp(1.5rem,   1.2rem + 1.25vw, 2.25rem);     /* 24–36px */
+--text-2xl:   clamp(2rem,     1.2rem + 2.5vw, 3.5rem);       /* 32–56px */
+--text-3xl:   clamp(3rem,     0.5rem + 7vw, 8rem);           /* 48–128px */
+```
+
+**Font usage map:**
+- `--text-3xl`, `--text-2xl` → Cormorant Garamond 600, letter-spacing -1px (hero only)
+- `--text-xl` → Cormorant Garamond 500 Italic (section titles)
+- `--text-lg` → Satoshi 700 (card headings, product names)
+- `--text-base` → Satoshi 400 (body copy, descriptions)
+- `--text-sm` → Satoshi 500 (buttons, nav links, labels)
+- `--text-xs` → Satoshi 400 (badges, timestamps, metadata)
+
+**Hindi accent font:** Hind (Google Fonts, 400 weight) — for taglines only
+
+## 1.3 Spacing, Radius & Shadows
+
+```css
+/* 4px spacing scale */
+--space-1: 0.25rem;   /* 4px */  --space-2: 0.5rem;    /* 8px */
+--space-3: 0.75rem;   /* 12px */ --space-4: 1rem;      /* 16px */
+--space-6: 1.5rem;    /* 24px */ --space-8: 2rem;      /* 32px */
+--space-12: 3rem;     /* 48px */ --space-16: 4rem;     /* 64px */
+--space-24: 6rem;     /* 96px */ --space-32: 8rem;     /* 128px */
+
+/* Radius */
+--radius-sm:   6px;    /* inputs, chips */
+--radius-md:   12px;   /* buttons */
+--radius-lg:   20px;   /* product cards */
+--radius-xl:   28px;   /* modals, drawer panels */
+--radius-full: 9999px; /* tags, pill badges */
+
+/* Shadows (tone-matched to warm cream surfaces) */
+--shadow-sm:  0 1px 3px oklch(0.20 0.02 50 / 0.06);
+--shadow-md:  0 4px 16px oklch(0.20 0.02 50 / 0.09),
+              0 1px 3px oklch(0.20 0.02 50 / 0.05);
+--shadow-lg:  0 16px 40px oklch(0.20 0.02 50 / 0.13),
+              0 4px 10px oklch(0.20 0.02 50 / 0.07);
+--shadow-gold: 0 0 32px oklch(0.62 0.135 68 / 0.28),
+               0 0 8px oklch(0.62 0.135 68 / 0.18);
+```
+
+***
+
+# PART 2 — 3D ENGINE SETUP
+
+## 2.1 Three.js Scene Architecture
+
+```javascript
+// One persistent WebGL renderer — fullscreen, behind all HTML
+const renderer = new THREE.WebGLRenderer({
+  antialias: true,
+  alpha: true,           // transparent background — HTML layers over it
+  powerPreference: 'high-performance'
+});
+renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.2;
+renderer.outputColorSpace = THREE.SRGBColorSpace;
+document.body.prepend(renderer.domElement);  // behind everything
+renderer.domElement.style.cssText = 'position:fixed;top:0;left:0;z-index:0;pointer-events:none;';
+```
+
+## 2.2 Lighting Rig (Warm Indian Kitchen Lighting)
+
+```javascript
+// Warm ambient — mimics golden afternoon Indian light
+const ambientLight = new THREE.AmbientLight(0xFFF3DC, 0.6);
+
+// Key light — warm directional, top-right (mimics window light)
+const keyLight = new THREE.DirectionalLight(0xFFDFA0, 2.2);
+keyLight.position.set(3, 5, 2);
+keyLight.castShadow = true;
+keyLight.shadow.mapSize.setScalar(2048);
+keyLight.shadow.camera.near = 0.1;
+keyLight.shadow.camera.far = 20;
+
+// Fill light — cooler, left side, subtle (blue-grey like shade)
+const fillLight = new THREE.DirectionalLight(0xC8D8FF, 0.4);
+fillLight.position.set(-3, 1, -1);
+
+// Rim light — gold, from behind, creates halo on products
+const rimLight = new THREE.DirectionalLight(0xFFB347, 0.8);
+rimLight.position.set(0, 2, -4);
+
+scene.add(ambientLight, keyLight, fillLight, rimLight);
+```
+
+## 2.3 3D Material System
+
+Define reusable PBR materials for each product category:
+
+```javascript
+// Dahi — Ceramic/clay matka material
+const dahiMatMaterial = new THREE.MeshPhysicalMaterial({
+  color: 0xD4A882,        // terracotta
+  roughness: 0.85,
+  metalness: 0.0,
+  clearcoat: 0.0,
+});
+
+// Ghee jar — Glass + gold lid material
+const gheeGlassMaterial = new THREE.MeshPhysicalMaterial({
+  color: 0xFFECB0,        // amber tint
+  roughness: 0.05,
+  metalness: 0.0,
+  transmission: 0.92,     // physically correct glass
+  thickness: 0.6,
+  ior: 1.45,              // glass IOR
+  clearcoat: 1.0,
+  clearcoatRoughness: 0.05,
+});
+const gheeLidMaterial = new THREE.MeshPhysicalMaterial({
+  color: 0xC8860A,        // Haldi Gold
+  roughness: 0.25,
+  metalness: 0.85,
+  clearcoat: 0.6,
+});
+
+// Ice cream — Soft subsurface scattering material
+const iceCreamMaterial = new THREE.MeshPhysicalMaterial({
+  color: 0xFFF0C0,        // kesar/saffron yellow
+  roughness: 0.7,
+  metalness: 0.0,
+  clearcoat: 0.3,
+  clearcoatRoughness: 0.4,
+  sheen: 1.0,             // milky sheen
+  sheenColor: 0xFFE0A0,
+  sheenRoughness: 0.8,
+});
+```
+
+***
+
+# PART 3 — GLOBAL LAYOUT SHELL
+
+## 3.1 Z-Layer Stack
+
+```
+z-index: 0    → WebGL canvas (fullscreen, position:fixed, pointer-events:none)
+z-index: 1    → Page scroll container (#app)
+z-index: 10   → Section content (text, product cards, CTAs)
+z-index: 50   → Sticky navigation bar
+z-index: 100  → Side drawer (cart, filter panel)
+z-index: 200  → Modals, toasts, dialogs
+z-index: 300  → Full-page overlays (product zoom, splash)
+```
+
+## 3.2 Navigation Bar
+
+**Desktop (≥1024px):**
+- Height: 72px, sticky, `backdrop-filter: blur(16px) saturate(180%)`
+- Background: `oklch(0.97 0.012 85 / 0.85)` — semi-transparent cream
+- Border-bottom: `1px solid oklch(0.88 0.016 75 / 0.5)`
+- Transition: on scroll > 80px → shrink to 56px, increase blur to 24px
+
+**Left zone (240px):**  
+Custom SVG logo (described in Part 8) + brand name in Cormorant Garamond 600 24px
+
+**Center zone (flex-grow):**  
+Nav links in Satoshi 500 14px: `Home` · `Products` · `Recipes` · `Our Story` · `Find a Store`
+- Active link: Haldi Gold color + 2px underline animation that slides from left
+- Hover: smooth color transition 180ms
+- Current page indicator: thin Haldi Gold pill under the link, animates with layoutId morph
+
+**Right zone (240px):**  
+Icons row (all 20px, Satoshi/Lucide): 🔍 Search · 🌙 Dark Mode Toggle · 👤 Profile · 🛒 Cart (with animated count badge)
+
+Cart badge: animated NumberFlow digit, Haldi Gold pill, pops with spring scale animation when item added
+
+**Mobile (< 768px):**
+- Logo centered, hamburger left, cart icon right
+- On hamburger tap: bottom sheet slides up with spring easing (damping: 25, stiffness: 180)
+- Bottom sheet has all nav links vertically stacked, large touch targets (52px height each)
+- Below links: small profile summary if logged in, or Login/Sign Up CTA
+- Sheet has subtle frosted glass background, rounded top corners 28px
+
+***
+
+# PART 4 — PAGE BY PAGE DESIGN
+
+***
+
+## PAGE 1 — HOME (#home)
+
+### Section 1.1 — Hero (Full Viewport, 100vh)
+
+**3D element:** A floating, slowly rotating glass jar of ghee sits center-right of the viewport. The jar is the hero. No background image.
+
+**Three.js setup for hero jar:**
+```javascript
+// Floating animation — continuous loop
+function animateHeroJar() {
+  jar.rotation.y += 0.003;                                    // gentle Y rotation
+  jar.position.y = Math.sin(Date.now() * 0.001) * 0.08;      // floating bob
+  lid.rotation.y += 0.003;
+  goldParticles.rotation.y += 0.0008;                        // counter-rotate particles
+}
+// On scroll: jar moves right and scales down, transitions to product section
+```
+
+**Gold particle field:** 400 small gold particles (THREE.Points) scattered around the jar in a loose cloud — drift slowly, respond to mouse movement (subtle parallax: ±15px at 60fps)
+
+**HTML overlay on hero (left side, z-index: 10):**
+```
+[Small caps label — Satoshi 500 12px, tracked, Mitti Gray]
+ESTABLISHED 2009 · MAHARASHTRA
+
+[Hero headline — Cormorant Garamond 600, --text-3xl, Chandan Brown]
+"Pure Dairy.
+ The Way Nature
+ Intended."
+
+[Hindi subline — Hind 400 18px, Haldi Gold]
+"प्रकृति की शुद्धता, हर बूँद में"
+
+[Body — Satoshi 300 17px, Mitti Gray, max-width 48ch]
+"No shortcuts. No additives. Just honest dairy
+ from free-grazing cows in the Western Ghats."
+
+[CTA row — 48px height minimum]
+[Primary btn: "Explore Products" — Haldi Gold fill, Satoshi 600 14px uppercase tracked]
+[Ghost btn: "Our Story →" — Chandan Brown border, same size]
+```
+
+**Bottom of hero — animated scroll indicator:**  
+A thin vertical line (2px, Haldi Gold, 40px tall) with a small dot that slides down on loop. "Scroll to explore" in Satoshi 400 11px rotated 90° beside it.
+
+**Subtle textured background:** An SVG grain filter (`feTurbulence baseFrequency="0.65"`) at 3% opacity over the cream background — adds tactility without being visible.
+
+***
+
+### Section 1.2 — Products Showcase (3D Carousel)
+
+**Title (Cormorant Garamond 500 Italic, --text-2xl, centered):**  
+"Three Products. One Obsession."
+
+**3D carousel:** Three product objects on a curved invisible track. The center product is large (100% scale), flanking ones are 65% scale and slightly behind. Left/right arrow buttons rotate the carousel. On hover over a product: it floats 12px upward, a soft gold glow appears beneath it, and the background behind it shifts warmth.
+
+**Carousel objects:**
+1. **Dahi** — A terracotta matka (clay pot) with a cloth tied over the top with jute twine
+2. **Ghee** — The glass jar with gold lid (same as hero, smaller scale)
+3. **Ice Cream** — A terracotta kulhad (small cup) with two scoops spilling over the edge, topped with saffron strands
+
+**Below each 3D object (HTML, absolutely positioned):**
+```
+[Cormorant Garamond 600 Italic, --text-xl] Product Name
+[Satoshi 400 14px, Mitti Gray] One-line tagline
+[Haldi Gold link] View Range →
+```
+
+**Section background:** A full-width horizontal band of warm `--color-surface-offset` with a very faint jali (Indian latticework) SVG pattern at 4% opacity behind the 3D objects.
+
+***
+
+### Section 1.3 — Brand Heritage Strip (Full-bleed, dark)
+
+**Background:** `--color-surface-deep` (dark charcoal) — the first dark section, creates visual relief.
+
+**Layout:** Two columns (60/40 split, asymmetric).
+
+**Left (60%):**  
+Large editorial photograph (real image from search/generate) — a brass ladle dripping fresh ghee into a clay pot, golden afternoon light spilling across a wooden surface, dark shallow depth of field.  
+The image has a subtle gold gradient vignette on the right edge, bleeding into the text column.
+
+**Right (40%):**  
+```
+[Satoshi 700 12px uppercase tracked, Haldi Gold]
+OUR STORY
+
+[Cormorant Garamond 500, --text-2xl, --color-text-inverse]
+"Fifteen years of
+ farming truth."
+
+[Satoshi 300 16px, line-height 1.8, --color-text-muted (lighter in dark mode)]
+Write 4 sentences: brand founding in a Maharashtra village, 
+partnership with 200+ local farmers, bilona ghee process 
+revival, promise to never use industrial methods.
+
+[Haldi Gold horizontal rule — 48px wide, 1.5px, centered under text]
+
+[Pull quote — Cormorant Garamond 400 Italic, 22px, Haldi Gold]
+"जहाँ दूध शुद्ध होता है, वहाँ स्वास्थ्य भी शुद्ध होता है"
+[Caption — Satoshi 400 12px, muted] Ancient Indian dairy wisdom
+```
+
+***
+
+### Section 1.4 — How It's Made (Horizontal Scroll, Pinned)
+
+**GSAP ScrollTrigger pinned section.** On desktop: section pins to viewport, and horizontal scroll reveals 5 process steps as user scrolls down. On mobile: vertical stacked steps instead.
+
+**Each step (5 total):**
+- Left: A large illustrated icon (thin-line SVG, hand-drawn style, Haldi Gold stroke, 80px)
+- Right: Step number (Cormorant Garamond 300, 80px, faint), step name (Satoshi 700 18px), 3-line description (Satoshi 400 15px)
+- Subtle connector line (dashed, 1px, Haldi Gold, 40% opacity) between steps
+
+**Steps:**
+1. 🐄 **Ethical Grazing** — Free-range desi cows, Western Ghats pastures
+2. 🧪 **Quality Testing** — Every batch, fat %, SNF, bacteria count
+3. 🏺 **Traditional Methods** — Bilona churn, hand-set dahi cultures
+4. ❄️ **Cold Chain** — Farm to facility in under 4 hours, below 4°C
+5. 📦 **Delivered Fresh** — Morning collection, afternoon delivery
+
+***
+
+### Section 1.5 — Testimonials Carousel
+
+**Layout:** Three testimonial cards visible simultaneously on desktop, single card on mobile, auto-scrolling with 4-second intervals, pause on hover.
+
+**Each card:**
+- Surface: `--color-surface`, `--radius-lg` 20px, `--shadow-md`
+- 5 gold stars (filled SVG, Haldi Gold, 16px each)
+- Quote in Cormorant Garamond 400 Italic 18px, max 3 lines
+- Name + City in Satoshi 500 14px, Mitti Gray
+- Circular profile photo 48px with 2px Haldi Gold ring border
+
+Testimonials from: Priya, Mumbai · Rajesh, Pune · Kavitha, Bengaluru · Anil, Nagpur · Deepa, Hyderabad
+
+***
+
+### Section 1.6 — Where to Buy Strip
+
+**Compact section, 160px tall, background `--color-primary` (Haldi Gold).**
+
+Left: "Order from your favourite app" in Cormorant Garamond 500 Italic 24px, `--color-text-inverse`
+Right: Four retailer logo pills (white background, rounded, 8px radius, 40px height): Blinkit · BigBasket · Zepto · JioMart
+
+***
+
+## PAGE 2 — PRODUCTS (#products)
+
+### Layout Architecture
+
+**Left sidebar (280px, sticky):**
+- "Products" page title — Cormorant Garamond 600 28px
+- Category filter accordion (three categories: Dahi Range · Ghee Range · Ice Cream Range)
+- Each category expands to show variants as radio-style pill selectors
+- Sort by: dropdown — Popular / Price: Low-High / New Arrivals
+- Filter by: Weight, Pack Type (single / multi-pack), Availability
+
+**Main grid (remaining width):**
+- 3-column grid on desktop, 2-column on tablet, 1-column on mobile
+- Each product card described below
+
+### Product Card Design
+
+Each product card has two states — **rest** and **hover/active**:
+
+**Rest state:**
+- Surface: `--color-surface`, `--radius-lg`, `--shadow-sm`
+- Top 55%: Product photography with warm editorial lighting (described per product)
+- Bottom 45%: White panel with product name, weight variants as pill toggles, price, Add to Cart button
+
+**Hover state (on desktop):**
+- Card lifts: `translateY(-6px)`, shadow deepens to `--shadow-lg`
+- Product image subtly scales to 1.04 inside its clipped frame
+- A thin Haldi Gold border appears (1.5px) around the card
+- "Quick View" CTA appears at bottom of image as an overlay strip (dark semi-transparent with blur, Satoshi 500 13px white uppercase)
+
+**Card anatomy (Dahi example):**
+```
+[Image — 280×200px, object-fit:cover, radius top 20px]
+  Warm terracotta bowl photo, editorial lit
+
+[Content padding: 16px]
+[Small tag — pill, Mitti Gray bg, 11px]  "PROBIOTIC CULTURE"
+
+[Product name — Satoshi 700 17px, Chandan Brown]
+  Fresh Set Dahi
+
+[Tagline — Cormorant Garamond 400 Italic 14px, Mitti Gray]
+  "Morning-fresh, every day"
+
+[Weight selector — row of pill buttons, 12px Satoshi 500]
+  [200g]  [400g ●]  [1kg]
+
+[Price row — flex between]
+  [₹65   — Satoshi 700 20px, Chandan Brown]
+  [was ₹75 — Satoshi 300 13px, strikethrough, muted]
+
+[Add to Cart — full-width button, Haldi Gold bg, Satoshi 600 13px uppercase tracked, 44px height]
+  + Add to Cart
+```
+
+**Category-specific card accent:**
+- Dahi cards: subtle cool green tint on the tag background
+- Ghee cards: Haldi Gold tag background — "BEST SELLER" or "BILONA METHOD"
+- Ice Cream cards: Kulfi Rose tag background — "NEW FLAVOUR" or "SUMMER SPECIAL"
+
+### Product Detail Page (Modal/Overlay — z-index 300)
+
+When a product card is clicked, a full-page overlay slides up from the bottom (spring animation, 400ms). The 3D product object from the carousel appears in the overlay's right half.
+
+**Left panel:**
+```
+Breadcrumb: Home → Products → Desi Ghee
+[Category badge, Haldi Gold]
+
+[Product name — Cormorant Garamond 700 40px]
+Desi Cow Ghee — Bilona Method
+
+[Short tagline — Cormorant 400 Italic 20px, muted]
+"Slow-churned in small batches. Golden, aromatic, pure."
+
+[Star rating row — 4.8★ · 1,240 reviews link]
+
+[Price — Satoshi 700 32px, Chandan Brown]  ₹620
+[Per 500ml — Satoshi 400 13px, muted]
+
+[Weight/size selector — pill button group]
+[500ml]  [1L]  [2L (Bulk)]
+
+[Add to Cart — full-width, 52px, Haldi Gold, spring-scale on click]
+[Wishlist icon button — ghost, 52px, same row]
+
+[Divider]
+
+[USP checklist — 4 items]
+✓ A2 Desi Cow Milk only
+✓ Traditional Bilona Process — not centrifuge
+✓ No preservatives, no colour, no flavour
+✓ FSSAI Certified · ISO 9001:2015
+
+[Description accordion]
+[Nutritional Info accordion]
+[Sourcing & Farming accordion]
+[Reviews section (3 visible, "Load More" button)]
+```
+
+**Right panel (3D):**
+The ghee jar 3D model renders here. User can:
+- Click + drag to rotate (OrbitControls, limited to ±30° vertical)
+- Pinch to zoom on mobile
+- Double-click to reset to default angle
+- "View 360° →" label below the canvas
+
+***
+
+## PAGE 3 — CART (#cart)
+
+### Layout
+
+**Two-column layout (desktop): 60/40 split**
+
+**Left — Cart Items:**
+
+Section title: "Your Cart" (Cormorant Garamond 600 28px) + item count (Satoshi 400 16px, muted): "(3 items)"
+
+Each cart line item:
+```
+[Product thumbnail — 80×80px, rounded 12px, object-fit:cover]
+[Right of thumbnail:]
+  [Product name — Satoshi 600 15px]
+  [Variant — Satoshi 400 13px, muted: "500ml · Ghee"]
+  [Price — Satoshi 700 18px, Chandan Brown]
+
+[Quantity stepper — right edge: [-] [2] [+] with spring animation on count change]
+[Remove — small, Satoshi 400 12px, Rose/error color, "Remove"]
+```
+
+Between items: thin `--color-divider` separator
+
+"Continue Shopping ←" link below items (Satoshi 500 14px, Haldi Gold)
+
+**Recommended add-ons strip:** Horizontal scroll row of 3 small product cards — "People also love" — compact 120px wide cards, each with Add button.
+
+**Right — Order Summary:**
+```
+[Sticky panel, --color-surface, --radius-xl, --shadow-md, padding 24px]
+
+[Title — Satoshi 700 16px] Order Summary
+
+[Line items:]
+Subtotal           ₹1,240
+Delivery             ₹40  [or "FREE" in Haldi Gold if > ₹999]
+GST (5%)             ₹64
+────────────────────────
+[Total — Satoshi 700 22px, Chandan Brown]
+Total              ₹1,344
+
+[Coupon code input — full-width, 44px, --radius-md]
+[Apply — inline button, Haldi Gold text]
+
+[Checkout — full-width, 52px, Haldi Gold fill, Satoshi 700 15px uppercase]
+  PROCEED TO CHECKOUT
+
+[Trust signals below button:]
+🔒 [Satoshi 400 12px, muted] 100% Secure Payment · SSL Encrypted
+[Razorpay / PayTM / UPI icons — small logos, 24px height]
+
+[Return policy note — Satoshi 400 12px, muted]
+Free returns within 24 hours of delivery
+```
+
+**Empty cart state:**
+A 3D animation plays: a small clay pot tips on its side (60-frame loop), with the text "Your cart is empty" in Cormorant Garamond 400 Italic 24px below, and a Haldi Gold "Shop Now →" button.
+
+***
+
+## PAGE 4 — PROFILE (#profile)
+
+### Layout: Sidebar + Content (like a settings-category pattern)
+
+**Left sidebar (240px, sticky):**
+```
+[Avatar — 64px circle, 2px Haldi Gold ring, initials fallback]
+[Name — Satoshi 700 16px] Priya Sharma
+[Tier badge — pill, Haldi Gold bg] Gold Member ✦
+[Joined — Satoshi 400 12px, muted] Since March 2022
+
+[Nav items — 48px each, left border accent on active:]
+📦 My Orders
+❤️  Saved Items
+📍 Addresses
+💳 Payment Methods
+🎁 Referrals & Rewards
+```
+
+**Main content pane (all tabs):**
+
+**My Orders tab:**
+Each order card:
+```
+[Order card — --color-surface, --radius-md, padding 16px]
+[Header row: Order #MH20240312 · 12 Mar 2024 · Status pill]
+[Status pills: "Delivered" (green) / "Out for Delivery" (gold) / "Processing" (muted)]
+[Items summary: thumbnail stack (max 3) + "+2 more" if needed]
+[Footer row: ₹1,240 total · Track Order link · Reorder button]
+```
+
+**Saved Items tab:**
+Same grid as Products page but with a pre-filled wishlist. Each card has a filled heart icon.
+
+**Addresses tab:**
+Cards for each saved address. Add New Address button opens a slide-in drawer (not a modal — keeps context). Address form: Name, Phone, Address Line 1, Line 2, City, State, Pincode, Type (Home/Work/Other).
+
+**Rewards tab:**
+```
+[Big stat at top: 340 points — Cormorant Garamond 700 56px, Haldi Gold]
+[= ₹34 off your next order — Satoshi 400 14px, muted]
+[Progress bar to next tier: Gold → Platinum needs 160 more points]
+[Recent points history — list with timestamps]
+[Referral code card — copy button, share via WhatsApp CTA]
+```
+
+***
+
+## PAGE 5 — SETTINGS (#settings)
+
+### Layout: Tab navigation at top + form panels
+
+**Tab row (sticky, top of content area):**
+Account · Notifications · Privacy · Orders · Help & Support
+
+**Account tab:**
+```
+[Section: Personal Information]
+[Avatar upload — drag-drop zone, or click to upload]
+Full Name [input]
+Phone [input — +91 prefix, Indian format]
+Date of Birth [date picker]
+[Save Changes button]
+
+[Section: Email & Password]
+Email [input — show/hide, greyed if social login]
+[Change Password → link, opens inline password change form]
+
+[Section: Language & Region]
+Language [dropdown: English / हिंदी]
+Preferred Delivery City [searchable dropdown]
+```
+
+**Notifications tab:**
+Toggle switches (not checkboxes — use real toggle components with smooth 200ms slide animation):
+- Order updates (always on, disabled)
+- Promotional offers
+- New product launches
+- Recipe recommendations
+- WhatsApp notifications
+- SMS notifications
+
+Each toggle: label left, toggle right, 44px row height, `--color-primary` when on, `--color-surface-offset` when off.
+
+**Help & Support tab:**
+```
+[FAQ accordion — 6 most common questions, smooth expand]
+[Contact card — Satoshi 500 15px]
+📱 WhatsApp Support: +91 98765 43210 (9am–7pm)
+✉️ Email: help@[brand].in
+[Chat button — opens a WhatsApp web link, target="_blank"]
+```
+
+***
+
+# PART 5 — MICRO-INTERACTIONS & ANIMATION SYSTEM
+
+## Add to Cart Flow
+1. User clicks "Add to Cart" button
+2. Button text morphs: "Add to Cart" → "Adding..." → "Added ✓" (torph animation)
+3. Button background transitions from Haldi Gold → darker green for 600ms, then back
+4. A product thumbnail icon animates: flies from the product card to the nav cart icon (CSS clip-path + translate, 400ms bezier arc)
+5. Cart icon badge number updates with NumberFlow spring animation (digit flips up)
+6. Toast appears: "[Product name] added to cart" — slides in from top-right, auto-dismisses after 3s
+
+## Navigation Transitions (Hash routing)
+- Exiting page: content area fades to 0 opacity + clips from bottom (clip-path: inset(0 0 100% 0) in 200ms)
+- Entering page: new content reveals from top (clip-path: inset(100% 0 0 0 → inset(0 0 0 0)) in 300ms)
+- The 3D scene: morphs between page-specific 3D objects via GSAP + Three.js object swap
+
+## Hover on Nav Links
+- Underline grows from left (width: 0 → 100%, 180ms, ease-out)
+- Text color warms toward Haldi Gold (180ms)
+
+## Product 3D Object Response to Mouse
+- Mouse move: subtle tilt (maximum ±8°, both axes), follows cursor with 200ms lag (lerp factor 0.08)
+- `document.addEventListener('mousemove', e => { targetX = (e.clientX/w - 0.5) * 0.28; targetY = (e.clientY/h - 0.5) * -0.18; })`
+- In rAF: `object.rotation.y += (targetX - object.rotation.y) * 0.06; object.rotation.x += (targetY - object.rotation.x) * 0.06;`
+
+## Scroll Reveal (CSS scroll-driven)
+```css
+.reveal {
+  opacity: 0;
+  animation: fade-in linear both;
+  animation-timeline: view();
+  animation-range: entry 0% entry 60%;
+}
+@keyframes fade-in { to { opacity: 1; } }
+```
+Never use translateY for scroll reveals (causes layout shift).
+
+## Button States
+- **Default:** Haldi Gold background, Chandan Brown/cream text
+- **Hover (180ms):** darken to --color-primary-hover
+- **Active/pressed:** scale(0.97) + --color-primary-active — feels physical
+- **Loading:** spinner replaces text, button width locks (no layout shift)
+- **Success:** background transitions to success green, checkmark appears
+
+***
+
+# PART 6 — MOBILE-SPECIFIC DESIGN (390px)
+
+## Sticky Bottom Bar
+Always visible on mobile:
+```
+[Height: 56px, --color-surface, border-top: 1px solid --color-border]
+[Four icons, evenly spaced, 44px touch target each:]
+🏠 Home    🧺 Products    🛒 Cart (badge)    👤 Profile
+[Active icon: Haldi Gold color + tiny gold dot underneath]
+```
+
+## Product Card on Mobile
+- Full-width single column
+- Image: 100vw width, 240px height, object-fit: cover
+- Content below image (not overlaid)
+- Add to Cart: 100% width, 52px height (comfortable thumb tap)
+
+## 3D on Mobile
+- Reduce particle count from 400 to 80 (performance)
+- Disable mouse parallax, replace with `deviceorientation` tilt (±5° max)
+- Reduce renderer pixel ratio to min(devicePixelRatio, 1.5)
+- 3D product detail view: object fills top 50% of screen, product info scrolls below
+
+***
+
+# PART 7 — PERFORMANCE RULES
+
+- **Lazy-load 3D:** Use Intersection Observer — initialize Three.js scene only when section is 20% in viewport
+- **Texture optimization:** Compress all Three.js textures to .ktx2 (basis universal). Fallback: .webp
+- **LOD (Level of Detail):** High-poly model when > 600px from viewport edge, low-poly when farther
+- **Cap geometry:** Product models max 8,000 triangles each
+- **Suspend rAF:** When page tab is hidden (`document.hidden`), pause the render loop
+- **CSS containment:** `contain: layout style` on product cards
+- **Font display:** `font-display: swap` on both fonts
+- **Image dimensions:** Every `<img>` has explicit `width` + `height` to prevent CLS
+- **Target:** LCP < 2.0s on Indian 4G networks (10Mbps simulation), CLS < 0.05
+
+***
+
+# PART 8 — LOGO & VISUAL IDENTITY
+
+## SVG Logo Design
+
+```
+Concept: A stylized matka (clay pot) with a single drop of ghee
+falling from above, forming the dot of the letter "i" or 
+the punctuation of the brand name.
+
+Shape: Geometric. Clean. Works at 24px favicon and 200px header.
+
+SVG structure:
+1. A rounded trapezoid shape (the matka body) — 2px stroke, no fill
+2. Two small curved handles on the sides
+3. A single teardrop shape above — Haldi Gold fill (#C8860A)
+4. Brand wordmark in Cormorant Garamond 600 to the right
+
+Monochrome version: all strokes in currentColor
+Color version: teardrop in Haldi Gold, rest in Chandan Brown
+```
+
+***
+
+# PART 9 — WHAT NOT TO DO (CRITICAL)
+
+### Aesthetics that break the premium Indian feel:
+- ❌ Purple, violet, neon blue, or electric teal — these are tech/startup colors, wrong for dairy heritage
+- ❌ Glowing orbs or blob-shaped gradient backgrounds — AI-template hallmark
+- ❌ Gradient fills on buttons — solid flat color only; gradients on 3D materials only
+- ❌ Three-column icon-in-circle feature grid — the most visible AI template pattern
+- ❌ Centered body text in cards or paragraphs — left align everything except hero titles
+- ❌ Same padding on every section — vary breathing room, alternate dense and spacious
+- ❌ Pure white (#FFFFFF) or pure black (#000000) anywhere
+- ❌ Western-style photography: cold white studio light, sleek minimalist kitchen, generic blonde model
+- ❌ Decorative background shapes (floating circles, wavy SVG dividers)
+- ❌ Emoji used as icons or bullet replacements — use Lucide icons instead
+
+### 3D anti-patterns:
+- ❌ Spinning globe — overused, clichéd
+- ❌ Particle clouds with no relation to the product
+- ❌ 3D text (extruded wordmarks) — feels like a 2010 PowerPoint
+- ❌ Full-screen 3D everywhere — use 3D for hero + product showcase only, rest of page is flat
+- ❌ Unlit grey 3D models — always apply the warm PBR material system from Part 2
+- ❌ 3D on every page load — lazy initialize, only when section is in view
+
+***
+
+# PART 10 — FIGMA FILE STRUCTURE
+
+```
+📁 00_Design System
+    ├── Color Styles (all OKLCH tokens)
+    ├── Text Styles (Cormorant + Satoshi scale)
+    ├── Effect Styles (shadows, glow)
+    └── Component Library
+
+📁 01_Desktop (1440px frames)
+    ├── 01 Home — Hero
+    ├── 02 Home — Products Showcase
+    ├── 03 Home — Brand Heritage
+    ├── 04 Home — How It's Made
+    ├── 05 Home — Testimonials
+    ├── 06 Products Page — Grid
+    ├── 07 Product Detail — Overlay
+    ├── 08 Cart Page
+    ├── 09 Profile — Orders Tab
+    ├── 10 Profile — Addresses Tab
+    ├── 11 Profile — Rewards Tab
+    ├── 12 Settings — Account Tab
+    ├── 13 Settings — Notifications Tab
+    └── 14 Footer
+
+📁 02_Mobile (390px frames)
+    └── [same order, mobile-specific layouts]
+
+📁 03_Components
+    ├── Navbar (default, scrolled, mobile)
+    ├── Product Card (rest, hover, loading)
+    ├── Cart Line Item
+    ├── Order Summary Panel
+    ├── Testimonial Card
+    ├── Toggle Switch
+    ├── CTA Button (primary, ghost, loading, success)
+    ├── Input Field (default, focus, error)
+    ├── Address Card
+    ├── Rewards Widget
+    ├── Toast Notification
+    ├── Bottom Navigation Bar (mobile)
+    └── 3D Product Placeholder (grey box mock)
+
+📁 04_Prototype
+    └── Linked scroll prototype with hover overlays
+```
+
+***
+
+# PART 11 — COPY TONE GUIDELINES
+
+Every text string on the site should follow this voice:
+
+- **Warm, not corporate.** Write like a trusted family dairy, not a multinational FMCG brand.
+- **Specific, not vague.** "A2 cow milk from Gir cows in Satara district" — not "premium quality milk"
+- **Hindi moments are genuine, not performative.** Only 1–2 Hindi phrases per page, used where they feel natural (pull quotes, taglines) — not sprinkled everywhere
+- **Celebrate the process.** The bilona method, hand-set cultures, morning collection — these details build trust
+- **Never say:** "100% natural", "farm-to-table" (Western cliché), "artisanal" (overused), "crafted with love", "your journey"
+- **Do say:** "Traditional bilona process", "FSSAI Certified", "No thickeners, no preservatives", specific farmer/village names
+
+***
+
+*End of Prompt. This is a complete design specification. Every section, page, interaction, and technical rule is defined. Build in order: Design System → Navigation Shell → Home → Products → Cart → Profile → Settings.*
