@@ -5,10 +5,10 @@
 
   /* === AAHARVEDIK BRAND TOKENS === */
   /* Warm beige + olive green palette — inspired by the Aaharvedik logo */
-  --mishri-bg: oklch(0.955 0.012 90);
-  --mishri-surface: oklch(0.975 0.008 88);
-  --mishri-surface-2: oklch(0.94 0.014 86);
-  --mishri-surface-offset: oklch(0.91 0.016 84);
+  --mishri-bg: #ffffff;
+  --mishri-surface: #ffffff;
+  --mishri-surface-2: #ffffff;
+  --mishri-surface-offset: #ffffff;
   --mishri-surface-deep: oklch(0.16 0.035 130);
   --mishri-text: oklch(0.22 0.025 130);
   --mishri-text-muted: oklch(0.48 0.025 130);
@@ -25,7 +25,7 @@
   --mishri-success: oklch(0.62 0.13 145);
 
   --font-display: 'Cormorant Garamond', 'Georgia', serif;
-  --font-body: 'Outfit', 'Inter', system-ui, sans-serif;
+  --font-body: 'Inter', system-ui, sans-serif;
   --font-hindi: 'Hind', 'Inter', sans-serif;
 
   --text-xs: clamp(0.75rem, 0.7rem + 0.25vw, 0.875rem);
@@ -161,6 +161,9 @@
   .font-display { font-family: var(--font-display); }
   .font-body { font-family: var(--font-body); }
   .font-hindi { font-family: var(--font-hindi); }
+
+  /* Disable cursive/italic styling globally as requested */
+  .italic { font-style: normal !important; }
 
   .grain { position: relative; }
   .grain::before {

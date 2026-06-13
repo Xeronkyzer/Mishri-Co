@@ -431,7 +431,7 @@ function HelpTab() {
   const helpLinks = [
     { Icon: MessageCircle, label: 'WhatsApp', value: '+91 96259 80156', href: 'https://wa.me/919625980156' },
     { Icon: Phone, label: 'Call', value: '+91 96259 80156', href: 'tel:+919625980156' },
-    { Icon: Mail, label: 'Email', value: 'Dairyscoop@gmail.com', href: 'mailto:Dairyscoop@gmail.com' },
+    { Icon: Mail, label: 'Email', value: 'dairyscoop.India@gmail.com', href: 'mailto:dairyscoop.India@gmail.com' },
   ];
 
   return (

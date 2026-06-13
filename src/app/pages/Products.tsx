@@ -108,12 +108,12 @@ export function Products() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '-40px' }}
               transition={{ duration: 0.55, delay: i * 0.08 }}
-              className="bg-white rounded-[28px] border p-6 sm:p-8 lg:p-10 flex flex-col sm:flex-row gap-6 sm:gap-8 items-start shadow-[0_4px_20px_rgba(28,36,16,0.03)] hover:shadow-[0_8px_32px_rgba(28,36,16,0.07)] hover:-translate-y-0.5 transition-all"
+              className="bg-white rounded-none border p-6 sm:p-8 lg:p-10 flex flex-col sm:flex-row gap-6 sm:gap-8 items-start shadow-[0_4px_20px_rgba(28,36,16,0.03)] hover:shadow-[0_8px_32px_rgba(28,36,16,0.07)] hover:-translate-y-0.5 transition-all"
               style={{ borderColor: 'var(--mishri-border)' }}
             >
               {/* Icon */}
               <div
-                className="size-[100px] sm:size-[120px] rounded-2xl flex items-center justify-center shrink-0"
+                className="size-[100px] sm:size-[120px] rounded-none flex items-center justify-center shrink-0"
                 style={{ background: 'var(--mishri-surface-offset)' }}
                 aria-hidden="true"
               >
@@ -130,7 +130,7 @@ export function Products() {
                     {p.category}
                   </span>
                   <span
-                    className="text-[9px] tracking-[0.18em] uppercase px-2 py-0.5 rounded-full font-semibold"
+                    className="text-[10px] tracking-[0.18em] uppercase px-2.5 py-1 rounded-none font-semibold"
                     style={{
                       background: 'var(--mishri-surface-offset)',
                       color: 'var(--mishri-text-muted)',
@@ -141,24 +141,24 @@ export function Products() {
                 </div>
 
                 <h2
-                  className="font-display text-[22px] sm:text-[26px] font-medium mt-1 mb-3"
+                  className="font-display text-[28px] sm:text-[32px] font-medium mt-1 mb-3"
                   style={{ color: 'var(--mishri-text)' }}
                 >
                   {p.name}
                 </h2>
 
                 <p
-                  className="text-[13px] sm:text-[14px] leading-relaxed font-light mb-5"
+                  className="text-[16px] sm:text-[17px] leading-relaxed font-light max-w-xl"
                   style={{ color: 'var(--mishri-text-muted)' }}
                 >
                   {p.desc}
                 </p>
 
-                <div className="flex flex-wrap gap-2">
+                <div className="flex flex-wrap gap-2 mt-6">
                   {p.usps.map(usp => (
                     <span
                       key={usp}
-                      className="inline-flex items-center gap-1.5 text-[11px] px-3 py-1 rounded-full border"
+                      className="inline-flex items-center gap-1.5 text-[12px] px-3 py-1 rounded-none border"
                       style={{ borderColor: 'var(--mishri-border)', color: 'var(--mishri-text)' }}
                     >
                       <Check className="size-3 shrink-0" style={{ color: 'var(--mishri-gold)' }} />
@@ -178,15 +178,14 @@ export function Products() {
         aria-label="Get notified"
       >
         <div
-          className="rounded-[28px] lg:rounded-[32px] p-7 sm:p-12 lg:p-16 text-center relative overflow-hidden"
-          style={{ background: 'var(--mishri-surface-deep)', color: 'var(--mishri-text-inverse)' }}
+          className="rounded-none p-7 sm:p-12 lg:p-16 text-center relative overflow-hidden"
+          style={{ background: 'var(--mishri-gold)', color: 'var(--mishri-text-inverse)' }}
         >
           <div className="absolute inset-0 jali-bg opacity-[0.03] pointer-events-none" aria-hidden="true" />
 
           <div className="relative z-10 max-w-lg mx-auto">
             <span
-              className="text-[11px] tracking-[0.28em] uppercase block mb-3 font-semibold"
-              style={{ color: 'var(--mishri-gold)' }}
+              className="text-[11px] tracking-[0.28em] uppercase block mb-3 font-semibold opacity-90"
             >
               Get Notified
             </span>
@@ -211,14 +210,14 @@ export function Products() {
                 onChange={e => setEmail(e.target.value)}
                 disabled={loading}
                 autoComplete="email"
-                className="h-12 px-5 rounded-full border bg-white/10 focus:bg-white/20 text-[15px] outline-none transition-all flex-1 max-w-sm text-white placeholder-white/50 focus:ring-2 focus:ring-white/20"
+                className="h-12 px-5 rounded-none border bg-white/10 focus:bg-white/20 text-[15px] outline-none transition-all flex-1 max-w-sm text-white placeholder-white/50 focus:ring-2 focus:ring-white/20"
                 style={{ borderColor: 'rgba(255,255,255,0.18)' }}
               />
               <button
                 type="submit"
                 disabled={loading}
-                className="h-12 px-7 rounded-full font-semibold text-[13px] tracking-[0.04em] transition-all hover:opacity-95 active:scale-[0.97] shrink-0 disabled:opacity-50 bg-white"
-                style={{ color: 'var(--mishri-surface-deep)' }}
+                className="h-12 px-7 rounded-none font-semibold text-[13px] tracking-[0.04em] transition-all hover:opacity-95 active:scale-[0.97] shrink-0 disabled:opacity-50 bg-white"
+                style={{ color: 'var(--mishri-gold)' }}
               >
                 {loading ? 'Adding…' : 'Be First →'}
               </button>

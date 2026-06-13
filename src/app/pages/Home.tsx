@@ -3,7 +3,7 @@ import { motion } from 'motion/react';
 import { toast } from 'sonner';
 import { Link } from 'react-router';
 import { ArrowRight } from 'lucide-react';
-import { HeroIllustration } from '../components/visual/HeroIllustration';
+
 import { GheeIcon, SarsoIcon, HoneyIcon, MakhanaIcon } from '../components/visual/ProductIcons';
 
 const productList = [
@@ -59,125 +59,83 @@ export function Home() {
     <div className="w-full">
       {/* ─── Hero ─── */}
       <section
-        className="relative min-h-[88svh] flex items-center overflow-hidden pt-20 pb-12 lg:py-0"
+        className="relative min-h-[90svh] flex items-center overflow-hidden pt-24 pb-12 lg:py-0"
         aria-label="Hero"
       >
-        {/* Ambient gradient */}
-        <div
-          className="absolute inset-0 pointer-events-none"
-          aria-hidden="true"
-          style={{
-            background:
-              'radial-gradient(70% 60% at 75% 30%, oklch(0.90 0.04 128 / 0.30), transparent 70%), radial-gradient(50% 40% at 5% 95%, oklch(0.85 0.05 100 / 0.18), transparent 70%)',
-          }}
-        />
+        <div className="max-w-[1480px] w-full mx-auto px-5 lg:px-10 grid lg:grid-cols-[1fr_1fr] items-center gap-12 lg:gap-16 relative z-10">
 
-        <div className="max-w-[1480px] w-full mx-auto px-5 lg:px-10 grid lg:grid-cols-[1.1fr_1fr] items-center gap-8 lg:gap-14 relative z-10">
-          {/* Text */}
+          {/* ─── Left: Text ─── */}
           <div>
-            <motion.div
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="inline-flex items-center gap-2 mb-5"
-            >
-              <span
-                className="h-px w-6"
-                style={{ background: 'var(--mishri-gold)' }}
-                aria-hidden="true"
-              />
-              <span
-                className="text-[11px] tracking-[0.28em] uppercase font-semibold"
-                style={{ color: 'var(--mishri-gold)' }}
-              >
-                Farm to Table
-              </span>
-            </motion.div>
-
             <motion.h1
-              initial={{ opacity: 0, y: 24 }}
+              initial={{ opacity: 0, y: 32 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.05 }}
-              className="font-display font-medium text-balance leading-[1.04]"
-              style={{ fontSize: 'clamp(40px, 5.5vw, 70px)', letterSpacing: '-0.02em' }}
+              transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+              className="font-display leading-[1.02]"
+              style={{
+                fontSize: 'clamp(44px, 6vw, 88px)',
+                fontWeight: 300,
+                color: 'var(--mishri-text)',
+                letterSpacing: '-0.02em',
+              }}
             >
               Ancient goodness.<br />
-              <span className="italic" style={{ color: 'var(--mishri-gold)' }}>
-                Straight from the farm.
-              </span>
+              Straight from the<br />
+              farm.
             </motion.h1>
 
             <motion.p
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.15 }}
-              className="mt-5 max-w-lg text-[15px] sm:text-[17px] leading-[1.75] font-light"
+              transition={{ duration: 0.8, delay: 0.18 }}
+              className="mt-7 max-w-[460px] text-[18px] sm:text-[20px] leading-[1.8] font-light"
               style={{ color: 'var(--mishri-text-muted)' }}
             >
               We bring the forgotten purity of village kitchens back to your
               table — raw, unhurried, and churned by the hands of tradition.
             </motion.p>
 
-            <motion.div
+            <motion.form
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.25 }}
-              className="mt-7 flex flex-col sm:flex-row gap-3"
+              transition={{ duration: 0.8, delay: 0.32 }}
+              onSubmit={handleSubscribe}
+              className="mt-10 flex max-w-[480px] w-full shadow-sm"
+              aria-label="Notify me form"
             >
-              <form
-                onSubmit={handleSubscribe}
-                className="flex flex-1 gap-2 max-w-md"
-                aria-label="Early access sign-up"
-              >
-                <input
-                  type="email"
-                  placeholder="Enter your email"
-                  required
-                  value={email}
-                  onChange={e => setEmail(e.target.value)}
-                  disabled={loading}
-                  autoComplete="email"
-                  className="h-12 px-5 rounded-full border bg-white/50 backdrop-blur-sm focus:bg-white text-[15px] outline-none transition-all flex-1 min-w-0 focus:ring-2 focus:ring-[var(--mishri-gold)]/30"
-                  style={{ borderColor: 'var(--mishri-border)', color: 'var(--mishri-text)' }}
-                />
-                <button
-                  type="submit"
-                  disabled={loading}
-                  className="h-12 px-6 rounded-full font-semibold text-[13px] tracking-[0.06em] text-white transition-all hover:opacity-90 active:scale-[0.97] shrink-0 disabled:opacity-50"
-                  style={{ background: 'var(--mishri-gold)' }}
-                >
-                  {loading ? 'Adding…' : 'Notify Me'}
-                </button>
-              </form>
-
-              <Link
-                to="/products"
-                className="inline-flex items-center gap-2 h-12 px-6 rounded-full border text-[13px] font-medium tracking-[0.04em] transition-all hover:bg-[var(--mishri-surface-offset)] shrink-0"
+              <input
+                type="email"
+                placeholder="Enter your email"
+                required
+                value={email}
+                onChange={e => setEmail(e.target.value)}
+                disabled={loading}
+                autoComplete="email"
+                className="h-14 px-5 rounded-none border border-r-0 bg-white text-[16px] outline-none transition-all flex-1 min-w-0 focus:ring-2 focus:ring-[var(--mishri-gold)]/20"
                 style={{ borderColor: 'var(--mishri-border)', color: 'var(--mishri-text)' }}
+              />
+              <button
+                type="submit"
+                disabled={loading}
+                className="h-14 px-8 rounded-none font-semibold text-[14px] tracking-[0.03em] text-white transition-all hover:opacity-90 active:scale-[0.98] shrink-0 disabled:opacity-50 whitespace-nowrap"
+                style={{ background: 'var(--mishri-gold)' }}
               >
-                View Products <ArrowRight className="size-4" />
-              </Link>
-            </motion.div>
-
-            <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-              className="mt-4 text-[12px] tracking-[0.04em]"
-              style={{ color: 'var(--mishri-text-faint)' }}
-            >
-              जल्द आ रहे हैं — Launching soon. No spam, ever.
-            </motion.p>
+                {loading ? 'Adding…' : 'Be First'}
+              </button>
+            </motion.form>
           </div>
 
-          {/* Illustration */}
+          {/* ─── Right: Illustration ─── */}
           <motion.div
             initial={{ opacity: 0, scale: 0.96 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 1.1, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
             className="relative flex justify-center lg:justify-end"
           >
-            <HeroIllustration />
+            <img 
+              src="/image.png" 
+              alt="Aaharvedik Illustration" 
+              className="w-full max-w-[600px] lg:max-w-none object-contain" 
+            />
           </motion.div>
         </div>
       </section>
@@ -199,7 +157,7 @@ export function Home() {
             </div>
             <h2
               className="font-display text-balance leading-tight"
-              style={{ fontSize: 'clamp(28px, 4vw, 48px)' }}
+              style={{ fontSize: 'clamp(32px, 4.5vw, 56px)' }}
             >
               What We Bring{' '}
               <span className="italic" style={{ color: 'var(--mishri-gold)' }}>
@@ -216,23 +174,23 @@ export function Home() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: '-40px' }}
                 transition={{ duration: 0.55, delay: i * 0.07 }}
-                className="bg-white p-6 sm:p-8 rounded-[24px] border shadow-[0_4px_16px_rgba(28,36,16,0.03)] flex flex-col items-center text-center transition-all hover:shadow-[0_8px_30px_rgba(28,36,16,0.07)] hover:-translate-y-0.5 group"
+                className="bg-white p-6 sm:p-8 rounded-none border shadow-[0_4px_16px_rgba(28,36,16,0.03)] flex flex-col items-center text-center transition-all hover:shadow-[0_8px_30px_rgba(28,36,16,0.07)] hover:-translate-y-0.5 group"
                 style={{ borderColor: 'var(--mishri-border)' }}
               >
                 <div
-                  className="mb-5 size-[100px] sm:size-[112px] flex items-center justify-center rounded-2xl transition-colors"
+                  className="mb-5 size-[100px] sm:size-[112px] flex items-center justify-center rounded-none transition-colors"
                   style={{ background: 'var(--mishri-surface-offset)' }}
                 >
                   {p.icon}
                 </div>
                 <h3
-                  className="font-display text-[20px] sm:text-[22px] font-medium mb-2"
+                  className="font-display text-[22px] sm:text-[24px] font-medium mb-2"
                   style={{ color: 'var(--mishri-text)' }}
                 >
                   {p.name}
                 </h3>
                 <p
-                  className="text-[13px] sm:text-[14px] leading-relaxed font-light"
+                  className="text-[14px] sm:text-[15px] leading-relaxed font-light"
                   style={{ color: 'var(--mishri-text-muted)' }}
                 >
                   {p.desc}
@@ -244,7 +202,7 @@ export function Home() {
           <div className="mt-10 text-center">
             <Link
               to="/products"
-              className="inline-flex items-center gap-2 px-7 h-12 rounded-full text-[13px] font-medium tracking-[0.06em] transition-all hover:gap-3 hover:opacity-90 active:scale-[0.97]"
+              className="inline-flex items-center gap-2 px-7 h-12 rounded-none text-[13px] font-medium tracking-[0.06em] transition-all hover:gap-3 hover:opacity-90 active:scale-[0.97]"
               style={{ background: 'var(--mishri-gold)', color: 'var(--mishri-text-inverse)' }}
             >
               Explore All Products <ArrowRight className="size-4" />
@@ -264,7 +222,7 @@ export function Home() {
             </div>
             <h2
               className="font-display text-balance leading-tight"
-              style={{ fontSize: 'clamp(26px, 3.5vw, 44px)' }}
+              style={{ fontSize: 'clamp(34px, 4.5vw, 58px)' }}
             >
               Four steps.{' '}
               <span className="italic" style={{ color: 'var(--mishri-gold)' }}>
@@ -281,25 +239,26 @@ export function Home() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: '-40px' }}
                 transition={{ duration: 0.5, delay: i * 0.08 }}
-                className="p-6 rounded-[20px] relative overflow-hidden"
+                className="p-7 lg:p-9 rounded-none relative overflow-hidden"
                 style={{ background: 'var(--mishri-surface)' }}
               >
+                {/* Ghost number — fully inside card bounds */}
                 <span
-                  className="font-display text-[60px] leading-none absolute -top-2 -right-1 select-none pointer-events-none"
-                  style={{ color: 'var(--mishri-gold)', opacity: 0.10 }}
+                  className="font-display text-[80px] leading-none absolute top-3 right-4 select-none pointer-events-none"
+                  style={{ color: 'var(--mishri-gold)', opacity: 0.08 }}
                   aria-hidden="true"
                 >
                   {num}
                 </span>
                 <div
-                  className="text-[11px] tracking-[0.22em] uppercase font-semibold mb-3"
+                  className="text-[11px] tracking-[0.24em] uppercase font-semibold mb-4"
                   style={{ color: 'var(--mishri-gold)' }}
                 >
                   Step {num}
                 </div>
-                <h3 className="font-display text-[20px] font-medium mb-2">{title}</h3>
+                <h3 className="font-display text-[24px] font-medium mb-3">{title}</h3>
                 <p
-                  className="text-[13px] leading-relaxed font-light"
+                  className="text-[15px] leading-relaxed font-light"
                   style={{ color: 'var(--mishri-text-muted)' }}
                 >
                   {body}

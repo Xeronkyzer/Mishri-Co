@@ -5,8 +5,7 @@ import { toast } from 'sonner';
 import { SectionLabel } from '../components/ui-bits/SectionLabel';
 
 // ─── Business contact info ───────────────────────────────────────────────────
-const PRIMARY_EMAIL = 'Dairyscoop@gmail.com';
-const SECONDARY_EMAIL = 'dairyscoop.India@gmail.com';
+const EMAIL = 'dairyscoop.India@gmail.com';
 const PHONE = '+91 96259 80156';
 const WHATSAPP = '919625980156';
 const ADDRESS = 'A-7 (P-IIb), MIP Bihta, Patna, Bihar';
@@ -19,8 +18,7 @@ type ContactInfo = {
 };
 
 const contactDetails: ContactInfo[] = [
-  { icon: Mail, label: 'Primary Email', value: PRIMARY_EMAIL, href: `mailto:${PRIMARY_EMAIL}` },
-  { icon: Mail, label: 'Alt. Email', value: SECONDARY_EMAIL, href: `mailto:${SECONDARY_EMAIL}` },
+  { icon: Mail, label: 'Email', value: EMAIL, href: `mailto:${EMAIL}` },
   { icon: Phone, label: 'Phone', value: PHONE, href: `tel:+919625980156` },
   { icon: MessageCircle, label: 'WhatsApp', value: PHONE, href: `https://wa.me/${WHATSAPP}` },
   { icon: MapPin, label: 'Address', value: ADDRESS },
@@ -89,7 +87,7 @@ export function Contact() {
               message.
             </h2>
             <p
-              className="mt-4 text-[14.5px] leading-relaxed"
+              className="mt-5 text-[16px] sm:text-[17px] leading-relaxed"
               style={{ color: 'var(--mishri-text-muted)' }}
             >
               Drop us a message and we'll get back to you as soon as possible.
@@ -118,7 +116,7 @@ export function Contact() {
                         href={href}
                         rel={href.startsWith('http') ? 'noopener noreferrer' : undefined}
                         target={href.startsWith('http') ? '_blank' : undefined}
-                        className="text-[14px] sm:text-[15px] hover:text-[var(--mishri-gold)] transition-colors break-all"
+                        className="text-[15px] sm:text-[16px] hover:text-[var(--mishri-gold)] transition-colors break-all"
                       >
                         {value}
                       </a>
@@ -133,8 +131,8 @@ export function Contact() {
             {/* Quick CTA pills */}
             <div className="mt-8 flex flex-col sm:flex-row gap-3 flex-wrap">
               <a
-                href={`mailto:${PRIMARY_EMAIL}`}
-                className="flex items-center gap-3 px-4 py-3 rounded-2xl hover:-translate-y-0.5 transition-transform"
+                href={`mailto:${EMAIL}`}
+                className="flex items-center gap-3 px-4 py-3 rounded-none hover:-translate-y-0.5 transition-transform"
                 style={{ background: 'var(--mishri-surface)', boxShadow: 'var(--shadow-sm)' }}
               >
                 <div
@@ -146,7 +144,7 @@ export function Contact() {
                 </div>
                 <div>
                   <div className="text-[10px] tracking-[0.18em] uppercase opacity-60">Email</div>
-                  <div className="text-[12px] font-medium">{PRIMARY_EMAIL}</div>
+                  <div className="text-[12px] font-medium">{EMAIL}</div>
                 </div>
               </a>
 
@@ -154,7 +152,7 @@ export function Contact() {
                 href={`https://wa.me/${WHATSAPP}`}
                 rel="noopener noreferrer"
                 target="_blank"
-                className="flex items-center gap-3 px-4 py-3 rounded-2xl hover:-translate-y-0.5 transition-transform"
+                className="flex items-center gap-3 px-4 py-3 rounded-none hover:-translate-y-0.5 transition-transform"
                 style={{ background: 'var(--mishri-surface)', boxShadow: 'var(--shadow-sm)' }}
               >
                 <div
@@ -175,7 +173,7 @@ export function Contact() {
           {/* ─── Contact Form ─── */}
           <form
             onSubmit={handleSubmit}
-            className="p-6 sm:p-8 rounded-[24px] space-y-4"
+            className="p-6 sm:p-8 rounded-none space-y-4"
             style={{ background: 'var(--mishri-surface)', boxShadow: 'var(--shadow-md)' }}
             aria-label="Contact form"
             noValidate
@@ -197,7 +195,7 @@ export function Contact() {
                 name="message"
                 required
                 rows={5}
-                className="w-full px-4 py-3 rounded-xl border bg-transparent text-[15px] outline-none focus:border-[var(--mishri-gold)] focus:ring-2 focus:ring-[var(--mishri-gold)]/20 resize-none transition-all"
+                className="w-full px-4 py-3 rounded-none border bg-transparent text-[16px] outline-none focus:border-[var(--mishri-gold)] focus:ring-2 focus:ring-[var(--mishri-gold)]/20 resize-none transition-all"
                 style={{ borderColor: 'var(--mishri-border)' }}
                 aria-required="true"
               />
@@ -206,7 +204,7 @@ export function Contact() {
             <button
               type="submit"
               disabled={submitting}
-              className="w-full h-12 rounded-full text-[12px] tracking-[0.2em] uppercase font-semibold transition-all hover:opacity-90 active:scale-[0.98] disabled:opacity-50"
+              className="w-full h-12 rounded-none text-[12px] tracking-[0.2em] uppercase font-semibold transition-all hover:opacity-90 active:scale-[0.98] disabled:opacity-50"
               style={{ background: 'var(--mishri-gold)', color: 'var(--mishri-text-inverse)' }}
             >
               {submitting ? 'Sending…' : 'Send Message'}
@@ -252,7 +250,7 @@ function FormField({
         required={required}
         autoComplete={autoComplete}
         aria-required={required}
-        className="w-full h-11 px-4 rounded-xl border bg-transparent text-[15px] outline-none focus:border-[var(--mishri-gold)] focus:ring-2 focus:ring-[var(--mishri-gold)]/20 transition-all"
+        className="w-full h-12 px-4 rounded-none border bg-transparent text-[16px] outline-none focus:border-[var(--mishri-gold)] focus:ring-2 focus:ring-[var(--mishri-gold)]/20 transition-all"
         style={{ borderColor: 'var(--mishri-border)' }}
       />
     </label>

@@ -76,13 +76,12 @@ export function Story() {
       {/* ─── Pull quote ─── */}
       <section
         className="py-14 lg:py-20 relative"
-        style={{ background: 'var(--mishri-surface-deep)', color: 'var(--mishri-text-inverse)' }}
+        style={{ background: 'var(--mishri-gold)', color: 'var(--mishri-text-inverse)' }}
         aria-label="Philosophy"
       >
         <div className="max-w-3xl mx-auto px-5 lg:px-10 text-center">
           <span
-            className="text-[72px] sm:text-[90px] font-display leading-none block select-none"
-            style={{ color: 'var(--mishri-gold)' }}
+            className="text-[72px] sm:text-[90px] font-display leading-none block select-none opacity-40"
             aria-hidden="true"
           >
             "
@@ -125,11 +124,11 @@ export function Story() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: '-40px' }}
                 transition={{ duration: 0.55 }}
-                className="p-7 lg:p-10 rounded-[24px] relative overflow-hidden group hover:-translate-y-1 transition-transform"
+                className="p-7 lg:p-10 rounded-none relative overflow-hidden group hover:-translate-y-1 transition-transform"
                 style={{ background: 'var(--mishri-surface)', boxShadow: 'var(--shadow-md)' }}
               >
                 <div
-                  className="size-12 rounded-2xl grid place-items-center mb-5"
+                  className="size-12 rounded-none grid place-items-center mb-5"
                   style={{ background: 'var(--mishri-gold)', color: 'var(--mishri-text-inverse)' }}
                   aria-hidden="true"
                 >
@@ -142,9 +141,9 @@ export function Story() {
                 >
                   {num}
                 </div>
-                <h3 className="font-display italic text-[22px] sm:text-[24px] mt-1">{title}</h3>
+                <h3 className="font-display italic text-[26px] sm:text-[28px] mt-1">{title}</h3>
                 <p
-                  className="mt-3 text-[13.5px] leading-relaxed"
+                  className="mt-3 text-[15px] leading-relaxed"
                   style={{ color: 'var(--mishri-text-muted)' }}
                 >
                   {desc}
@@ -169,7 +168,7 @@ export function Story() {
             </span>
           </h2>
           <p
-            className="mt-6 text-[15px] sm:text-[16px] leading-[1.85] max-w-xl mx-auto"
+            className="mt-6 text-[17px] sm:text-[18px] leading-[1.85] max-w-xl mx-auto"
             style={{ color: 'var(--mishri-text-muted)' }}
           >
             In a world of processed food and industrial shortcuts, Aaharvedik stands
@@ -194,7 +193,7 @@ export function Story() {
 
           <Link
             to="/products"
-            className="mt-10 inline-flex items-center gap-2 px-8 h-12 rounded-full text-[13px] tracking-[0.1em] uppercase font-semibold transition-all hover:gap-3 hover:opacity-90 active:scale-[0.97]"
+            className="mt-10 inline-flex items-center gap-2 px-8 h-12 rounded-none text-[13px] tracking-[0.1em] uppercase font-semibold transition-all hover:gap-3 hover:opacity-90 active:scale-[0.97]"
             style={{ background: 'var(--mishri-gold)', color: 'var(--mishri-text-inverse)' }}
           >
             Explore Our Range <ArrowRight className="size-4" />

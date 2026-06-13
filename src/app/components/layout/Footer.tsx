@@ -1,10 +1,10 @@
 import { Link } from 'react-router';
 import { Instagram, Youtube, Mail, Phone, MapPin } from 'lucide-react';
 import { Logo } from '../brand/Logo';
+import { FooterPattern } from '../visual/FooterPattern';
 
 // ─── Business contact constants ──────────────────────────────────────────────
-const PRIMARY_EMAIL = 'Dairyscoop@gmail.com';
-const SECONDARY_EMAIL = 'dairyscoop.India@gmail.com';
+const EMAIL = 'dairyscoop.India@gmail.com';
 const PHONE = '+91 96259 80156';
 const ADDRESS = 'A-7 (P-IIb), MIP Bihta, Patna, Bihar';
 
@@ -29,51 +29,47 @@ const helpLinks: [string, string][] = [
 const socials = [
   { Icon: Instagram, label: 'Instagram', href: '#' },
   { Icon: Youtube, label: 'YouTube', href: '#' },
-  { Icon: Mail, label: 'Email', href: 'mailto:Dairyscoop@gmail.com' },
+  { Icon: Mail, label: 'Email', href: `mailto:${EMAIL}` },
 ];
 
 export function Footer() {
   return (
-    <footer
-      className="relative mt-20 lg:mt-32"
-      style={{ background: 'var(--mishri-surface-deep)', color: 'var(--mishri-text-inverse)' }}
+    <div className="w-full mt-20 lg:mt-32">
+      {/* SVG Pattern sitting on white background above the footer */}
+      <div className="w-full relative h-[140px] sm:h-[180px] overflow-hidden" style={{ color: 'var(--mishri-gold)' }}>
+        <FooterPattern className="opacity-60 mix-blend-multiply text-[var(--mishri-gold)]" />
+      </div>
+
+      <footer
+        className="relative overflow-hidden"
+      style={{ background: 'var(--mishri-gold)', color: 'var(--mishri-text-inverse)' }}
     >
-      {/* Gold top line */}
+      {/* Top line border */}
       <div
-        className="absolute inset-x-0 top-0 h-px"
-        style={{ background: 'linear-gradient(90deg, transparent, var(--mishri-gold), transparent)' }}
+        className="absolute inset-x-0 top-0 h-px z-10"
+        style={{ background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent)' }}
         aria-hidden="true"
       />
 
-      <div className="max-w-[1480px] mx-auto px-5 lg:px-10 pt-14 lg:pt-20 pb-8 lg:pb-10">
+      <div className="relative z-10 max-w-[1480px] mx-auto px-5 lg:px-10 pt-14 lg:pt-20 pb-8 lg:pb-10">
         <div className="grid grid-cols-2 lg:grid-cols-[1.6fr_1fr_1fr_1fr] gap-8 lg:gap-16">
           {/* Brand column */}
           <div className="col-span-2 lg:col-span-1">
             <Logo variant="inverse" size={30} />
-            <p
-              className="mt-5 max-w-sm font-display italic text-[20px] sm:text-[22px] leading-snug"
-              style={{ color: 'var(--mishri-gold)' }}
-            >
-              "जहाँ दूध शुद्ध होता है, वहाँ स्वास्थ्य भी शुद्ध होता है।"
-            </p>
+
             <p className="mt-3 text-[13px] leading-relaxed opacity-60 max-w-sm">
               Pure dairy, the way nature intended — that's the Aaharvedik promise.
             </p>
 
             {/* Contact quick-info */}
             <div className="mt-5 space-y-2">
-              <a href={`mailto:${PRIMARY_EMAIL}`}
-                className="flex items-center gap-2 text-[12px] opacity-70 hover:opacity-100 hover:text-[var(--mishri-gold)] transition-all"
+              <a href={`mailto:${EMAIL}`}
+                className="flex items-center gap-2 text-[12px] opacity-70 hover:opacity-100 transition-all"
               >
-                <Mail className="size-3.5 shrink-0" />{PRIMARY_EMAIL}
-              </a>
-              <a href={`mailto:${SECONDARY_EMAIL}`}
-                className="flex items-center gap-2 text-[12px] opacity-70 hover:opacity-100 hover:text-[var(--mishri-gold)] transition-all"
-              >
-                <Mail className="size-3.5 shrink-0" />{SECONDARY_EMAIL}
+                <Mail className="size-3.5 shrink-0" />{EMAIL}
               </a>
               <a href="tel:+919625980156"
-                className="flex items-center gap-2 text-[12px] opacity-70 hover:opacity-100 hover:text-[var(--mishri-gold)] transition-all"
+                className="flex items-center gap-2 text-[12px] opacity-70 hover:opacity-100 transition-all"
               >
                 <Phone className="size-3.5 shrink-0" />{PHONE}
               </a>
@@ -90,7 +86,7 @@ export function Footer() {
                   href={href}
                   aria-label={label}
                   rel="noopener noreferrer"
-                  className="size-10 rounded-full border border-white/15 grid place-items-center hover:border-[var(--mishri-gold)] hover:text-[var(--mishri-gold)] transition-colors"
+                  className="size-10 rounded-full border border-white/15 grid place-items-center hover:border-white hover:bg-white/10 transition-colors"
                 >
                   <Icon className="size-4" />
                 </a>
@@ -109,13 +105,14 @@ export function Footer() {
           <div className="flex items-center gap-4 flex-wrap">
             <a href="tel:+919625980156" className="hover:opacity-100 transition-opacity">+91 96259 80156</a>
             <span aria-hidden="true">·</span>
-            <a href="mailto:Dairyscoop@gmail.com" className="hover:opacity-100 transition-opacity">
-              Dairyscoop@gmail.com
+            <a href={`mailto:${EMAIL}`} className="hover:opacity-100 transition-opacity">
+              {EMAIL}
             </a>
           </div>
         </div>
       </div>
     </footer>
+    </div>
   );
 }
 
@@ -130,7 +127,7 @@ function FooterCol({ title, links }: { title: string; links: [string, string][] 
           <li key={label}>
             <Link
               to={href}
-              className="text-[14px] opacity-80 hover:opacity-100 hover:text-[var(--mishri-gold)] transition-all"
+              className="text-[14px] opacity-80 hover:opacity-100 transition-all"
             >
               {label}
             </Link>
