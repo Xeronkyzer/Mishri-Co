@@ -1,9 +1,8 @@
 import { NavLink, Link, useLocation } from 'react-router';
 import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Menu, X, ShoppingBag } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import { Logo } from '../brand/Logo';
-import { useCart } from '../../state/cart';
 
 const links = [
   { to: '/', label: 'Home', end: true },
@@ -15,7 +14,6 @@ const links = [
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const { count } = useCart();
   const loc = useLocation();
 
   useEffect(() => {
@@ -93,54 +91,25 @@ export function Navbar() {
             ))}
           </nav>
 
-          {/* Actions */}
-          <div className="flex items-center gap-1">
-            {/* Cart button — visible on all screens */}
-            <Link
-              to="/cart"
-              aria-label={`Cart, ${count} item${count !== 1 ? 's' : ''}`}
-              className="relative size-10 grid place-items-center rounded-full hover:bg-[var(--mishri-surface-offset)] transition-colors"
-            >
-              <ShoppingBag className="size-[18px]" strokeWidth={1.7} />
-              <AnimatePresence>
-                {count > 0 && (
-                  <motion.span
-                    key="badge"
-                    initial={{ scale: 0, opacity: 0 }}
-                    animate={{ scale: 1, opacity: 1 }}
-                    exit={{ scale: 0, opacity: 0 }}
-                    className="absolute top-1 right-1 min-w-[16px] h-[16px] px-1 rounded-full text-[9px] font-bold grid place-items-center"
-                    style={{
-                      background: 'var(--mishri-gold)',
-                      color: 'var(--mishri-text-inverse)',
-                    }}
-                  >
-                    {count > 9 ? '9+' : count}
-                  </motion.span>
-                )}
-              </AnimatePresence>
-            </Link>
-
-            {/* Mobile menu button */}
-            <button
-              aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
-              aria-expanded={mobileOpen}
-              onClick={() => setMobileOpen(v => !v)}
-              className="lg:hidden size-10 grid place-items-center rounded-full hover:bg-[var(--mishri-surface-offset)] transition-colors"
-            >
-              <AnimatePresence mode="wait" initial={false}>
-                {mobileOpen ? (
-                  <motion.span key="x" initial={{ rotate: -90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: 90, opacity: 0 }} transition={{ duration: 0.15 }}>
-                    <X className="size-[18px]" strokeWidth={1.7} />
-                  </motion.span>
-                ) : (
-                  <motion.span key="menu" initial={{ rotate: 90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: -90, opacity: 0 }} transition={{ duration: 0.15 }}>
-                    <Menu className="size-[18px]" strokeWidth={1.7} />
-                  </motion.span>
-                )}
-              </AnimatePresence>
-            </button>
-          </div>
+          {/* Mobile menu button */}
+          <button
+            aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
+            aria-expanded={mobileOpen}
+            onClick={() => setMobileOpen(v => !v)}
+            className="lg:hidden size-10 grid place-items-center rounded-full hover:bg-[var(--mishri-surface-offset)] transition-colors"
+          >
+            <AnimatePresence mode="wait" initial={false}>
+              {mobileOpen ? (
+                <motion.span key="x" initial={{ rotate: -90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: 90, opacity: 0 }} transition={{ duration: 0.15 }}>
+                  <X className="size-[18px]" strokeWidth={1.7} />
+                </motion.span>
+              ) : (
+                <motion.span key="menu" initial={{ rotate: 90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: -90, opacity: 0 }} transition={{ duration: 0.15 }}>
+                  <Menu className="size-[18px]" strokeWidth={1.7} />
+                </motion.span>
+              )}
+            </AnimatePresence>
+          </button>
         </div>
       </motion.header>
 

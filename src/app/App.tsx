@@ -1,17 +1,11 @@
 import { useEffect } from 'react';
 import { HashRouter, Routes, Route, useLocation } from 'react-router';
 import { AnimatePresence, motion } from 'motion/react';
-import { CartProvider } from './state/cart';
-import { UserProvider } from './state/user';
 import { Navbar } from './components/layout/Navbar';
 import { Footer } from './components/layout/Footer';
-import { MobileTabBar } from './components/layout/MobileTabBar';
 import { Toaster } from './components/ui/sonner';
 import { Home } from './pages/Home';
 import { Products } from './pages/Products';
-import { Cart } from './pages/Cart';
-import { Profile } from './pages/Profile';
-import { Settings } from './pages/Settings';
 import { Story } from './pages/Story';
 import { Contact } from './pages/Contact';
 
@@ -37,12 +31,9 @@ function RoutedShell() {
         <Routes location={loc}>
           <Route path="/" element={<Home />} />
           <Route path="/products" element={<Products />} />
-          <Route path="/cart" element={<Cart />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/settings" element={<Settings />} />
           <Route path="/story" element={<Story />} />
           <Route path="/contact" element={<Contact />} />
-          {/* Catch-all redirect to home */}
+          {/* Catch-all → Home */}
           <Route path="*" element={<Home />} />
         </Routes>
       </motion.div>
@@ -53,35 +44,29 @@ function RoutedShell() {
 export default function App() {
   return (
     <HashRouter>
-      <UserProvider>
-        <CartProvider>
-          <ScrollToTop />
-          <div
-            className="min-h-screen relative grain overflow-x-hidden"
-            style={{ background: 'var(--mishri-bg)', color: 'var(--mishri-text)' }}
-          >
-            <Navbar />
-            {/* Extra bottom padding on mobile for tab bar */}
-            <main className="pb-[60px] lg:pb-0">
-              <RoutedShell />
-            </main>
-            <Footer />
-            <MobileTabBar />
-            <Toaster
-              position="top-center"
-              toastOptions={{
-                style: {
-                  background: 'var(--mishri-surface)',
-                  color: 'var(--mishri-text)',
-                  border: '1px solid var(--mishri-border)',
-                  borderRadius: '16px',
-                  fontFamily: 'var(--font-body)',
-                },
-              }}
-            />
-          </div>
-        </CartProvider>
-      </UserProvider>
+      <ScrollToTop />
+      <div
+        className="min-h-screen relative grain overflow-x-hidden"
+        style={{ background: 'var(--mishri-bg)', color: 'var(--mishri-text)' }}
+      >
+        <Navbar />
+        <main>
+          <RoutedShell />
+        </main>
+        <Footer />
+        <Toaster
+          position="top-center"
+          toastOptions={{
+            style: {
+              background: 'var(--mishri-surface)',
+              color: 'var(--mishri-text)',
+              border: '1px solid var(--mishri-border)',
+              borderRadius: '16px',
+              fontFamily: 'var(--font-body)',
+            },
+          }}
+        />
+      </div>
     </HashRouter>
   );
 }
