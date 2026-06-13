@@ -1,118 +1,204 @@
 import { motion } from 'motion/react';
-import { ImageWithFallback } from '../components/figma/ImageWithFallback';
 import { SectionLabel } from '../components/ui-bits/SectionLabel';
+import { Leaf, Droplets, Sun } from 'lucide-react';
+import { Link } from 'react-router';
+import { ArrowRight } from 'lucide-react';
 
-const milestones = [
-  { year: 'Jan 2026', title: 'A return home', body: 'Aryan Kumar leaves a product role in Bengaluru and returns to Hajipur with one stubborn idea: real dahi, set the way nani did it.' },
-  { year: 'Feb 2026', title: 'First six farmers', body: 'Mishri partners with six Sahiwal-keeping families in Vaishali district. The first matkas of dahi are set in a rented kitchen behind Hajipur railway station.' },
-  { year: 'Mar 2026', title: 'Bilona begins', body: 'A wooden bilona is commissioned from a carpenter in Lalganj. The first 30 jars of ghee are gifted to neighbours for honest feedback.' },
-  { year: 'Apr 2026', title: 'The cold chain', body: 'Our first refrigerated tempo starts daily runs from village collection points. Farm-to-facility time drops to under four hours.' },
-  { year: 'May 2026', title: 'Patna opens', body: 'We start same-day delivery across Patna and Hajipur. Eighteen farmers now supply us. 1,200 households have ordered at least once.' },
-  { year: 'Jun 2026', title: 'Kulfi season', body: 'Our nani sits with us for two weekends to perfect the kesar pista recipe. The first batch sells out in 11 hours.' },
+const pillars = [
+  {
+    icon: Leaf,
+    num: '01',
+    title: 'Pure Sourcing',
+    desc: 'Only A2 milk from native desi cows. Free-grazing, naturally fed. No milk powder, no artificial supplements. Ever.',
+  },
+  {
+    icon: Droplets,
+    num: '02',
+    title: 'Traditional Process',
+    desc: 'Bilona-churned ghee, matka-set dahi, slow-reduced kulfi. We follow the methods that have been perfected over generations.',
+  },
+  {
+    icon: Sun,
+    num: '03',
+    title: 'Natural Promise',
+    desc: 'Zero additives, zero preservatives, zero artificial anything. What reaches you is exactly what comes from nature.',
+  },
 ];
 
 export function Story() {
   return (
     <>
-      {/* Editorial hero */}
-      <section className="relative pt-20 lg:pt-40 pb-12 lg:pb-20 overflow-hidden">
-        <div className="absolute right-0 top-20 size-[500px] rounded-full opacity-[0.07] jali-bg anim-spin-slow"/>
-        <div className="max-w-[1200px] mx-auto px-5 lg:px-10 grid lg:grid-cols-[1fr_1fr] gap-8 lg:gap-16 items-center">
-          <div>
-            <SectionLabel>Our Story</SectionLabel>
-            <h1 className="font-display mt-5 text-balance" style={{ fontSize: 'var(--text-3xl)', lineHeight: 0.98 }}>
-              We didn't start a dairy <br/><span className="italic" style={{ color: 'var(--mishri-gold)' }}>brand.</span>
-              <br/>We restarted a craft.
-            </h1>
-            <p className="mt-6 font-hindi text-[20px]" style={{ color: 'var(--mishri-gold)' }}>शुद्धता से कोई समझौता नहीं।</p>
-            <p className="mt-5 max-w-md text-[16px] leading-[1.85]" style={{ color: 'var(--mishri-text-muted)' }}>
-              Six months ago, you couldn't find real bilona ghee in a Hajipur supermarket. Everything was centrifuged. Everything tasted the same. We thought somebody should fix that. Then we realised nobody else would.
-            </p>
-          </div>
-          <div className="relative">
-            <div className="absolute -inset-6 rounded-[32px] opacity-30 blur-2xl" style={{ background: 'var(--mishri-gold)' }}/>
-            <div className="relative aspect-[4/5] rounded-[24px] overflow-hidden">
-              <ImageWithFallback src="https://images.unsplash.com/photo-1609252509027-3928a66302fd?w=1200&q=85" alt="Anant Joshi with a desi cow" className="w-full h-full object-cover"/>
-              <div className="absolute inset-x-0 bottom-0 p-5" style={{ background: 'linear-gradient(to top, rgba(30,21,16,0.85), transparent)' }}>
-                <div className="text-[10px] tracking-[0.24em] uppercase opacity-80" style={{ color: 'var(--mishri-text-inverse)' }}>Founder</div>
-                <div className="font-display italic text-[22px]" style={{ color: 'var(--mishri-text-inverse)' }}>Aryan Kumar, Hajipur</div>
-              </div>
-            </div>
-          </div>
+      {/* ─── Hero ─── */}
+      <section className="relative pt-24 lg:pt-40 pb-12 lg:pb-20 overflow-hidden">
+        <div
+          className="absolute right-0 top-20 size-[400px] lg:size-[500px] rounded-full opacity-[0.05] jali-bg anim-spin-slow pointer-events-none"
+          aria-hidden="true"
+        />
+        <div className="max-w-[1000px] mx-auto px-5 lg:px-10 text-center">
+          <SectionLabel>About Aaharvedik</SectionLabel>
+          <motion.h1
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.85 }}
+            className="font-display mt-5 text-balance leading-[0.98]"
+            style={{ fontSize: 'clamp(36px, 7vw, 90px)' }}
+          >
+            Purity is not <br />
+            <span className="italic" style={{ color: 'var(--mishri-gold)' }}>
+              a choice.
+            </span>
+            <br />
+            It's a promise.
+          </motion.h1>
+          <motion.p
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.85, delay: 0.1 }}
+            className="mt-5 font-hindi text-[17px] sm:text-[20px]"
+            style={{ color: 'var(--mishri-gold)' }}
+          >
+            शुद्धता से कोई समझौता नहीं।
+          </motion.p>
+          <motion.p
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.85, delay: 0.2 }}
+            className="mt-5 max-w-xl mx-auto text-[15px] sm:text-[17px] leading-[1.85]"
+            style={{ color: 'var(--mishri-text-muted)' }}
+          >
+            Aaharvedik was born from a simple belief: dairy should be pure, natural,
+            and made with respect for tradition. We bring you products crafted the way
+            they were meant to be — no shortcuts, no additives, just honest food.
+          </motion.p>
         </div>
       </section>
 
-      {/* Pull quote */}
-      <section className="py-16 lg:py-20 relative" style={{ background: 'var(--mishri-surface-deep)', color: 'var(--mishri-text-inverse)' }}>
+      {/* ─── Pull quote ─── */}
+      <section
+        className="py-14 lg:py-20 relative"
+        style={{ background: 'var(--mishri-surface-deep)', color: 'var(--mishri-text-inverse)' }}
+        aria-label="Philosophy"
+      >
         <div className="max-w-3xl mx-auto px-5 lg:px-10 text-center">
-          <span className="text-[80px] font-display leading-none block" style={{ color: 'var(--mishri-gold)' }}>"</span>
-          <p className="font-display italic text-[24px] sm:text-[28px] lg:text-[36px] leading-snug -mt-6 text-balance">
-            We don't make ghee that competes on shelf. We make ghee that competes with your nani's memory.
+          <span
+            className="text-[72px] sm:text-[90px] font-display leading-none block select-none"
+            style={{ color: 'var(--mishri-gold)' }}
+            aria-hidden="true"
+          >
+            "
+          </span>
+          <blockquote className="font-display italic text-[20px] sm:text-[26px] lg:text-[34px] leading-snug -mt-6 text-balance">
+            We don't compete with industrial dairy. We honour the craft our
+            grandmothers perfected.
+          </blockquote>
+          <p className="mt-6 text-[11px] tracking-[0.26em] uppercase opacity-60">
+            — The Aaharvedik philosophy
           </p>
-          <p className="mt-6 text-[12px] tracking-[0.24em] uppercase opacity-60">— Aryan Kumar, founder's note, March 2026</p>
         </div>
       </section>
 
-      {/* Timeline */}
-      <section className="py-16 lg:py-28">
-        <div className="max-w-5xl mx-auto px-5 lg:px-10">
-          <SectionLabel>Timeline</SectionLabel>
-          <h2 className="font-display mt-4 mb-10 lg:mb-16" style={{ fontSize: 'var(--text-2xl)' }}>Six months, six chapters.</h2>
-
-          <div className="relative">
-            <div className="absolute left-[48px] sm:left-[88px] lg:left-[136px] top-0 bottom-0 w-px" style={{ background: 'var(--mishri-border)' }}/>
-            <div className="space-y-8 lg:space-y-12">
-              {milestones.map((m, i) => (
-                <motion.div key={m.year} initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: i * 0.06 }}
-                  className="grid grid-cols-[40px_1fr] sm:grid-cols-[80px_1fr] lg:grid-cols-[128px_1fr] gap-4 sm:gap-6 lg:gap-10 items-start relative">
-                  <div className="font-display text-[24px] sm:text-[36px] lg:text-[44px] leading-none" style={{ color: 'var(--mishri-gold)' }}>{m.year}</div>
-                  <div className="relative">
-                    <span className="absolute -left-[20px] sm:-left-[33px] lg:-left-[33px] top-2 sm:top-3 size-2.5 sm:size-3 rounded-full ring-2 sm:ring-4" style={{ background: 'var(--mishri-gold)', '--tw-ring-color': 'var(--mishri-bg)' } as React.CSSProperties}/>
-                    <h3 className="font-display italic text-[24px]">{m.title}</h3>
-                    <p className="mt-2 text-[15.5px] leading-relaxed max-w-xl" style={{ color: 'var(--mishri-text-muted)' }}>{m.body}</p>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Three pillars */}
-      <section className="py-16 lg:py-24" style={{ background: 'var(--mishri-surface-offset)' }}>
+      {/* ─── Three pillars ─── */}
+      <section
+        className="py-16 lg:py-24"
+        style={{ background: 'var(--mishri-surface-offset)' }}
+        aria-label="Our pillars"
+      >
         <div className="max-w-[1280px] mx-auto px-5 lg:px-10">
-          <div className="text-center max-w-xl mx-auto">
-            <SectionLabel>What we promise</SectionLabel>
-            <h2 className="font-display mt-4" style={{ fontSize: 'var(--text-2xl)' }}>Three pillars. <span className="italic" style={{ color: 'var(--mishri-gold)' }}>No exceptions.</span></h2>
+          <div className="text-center max-w-xl mx-auto mb-10 lg:mb-14">
+            <SectionLabel>What we stand for</SectionLabel>
+            <h2
+              className="font-display mt-4 text-balance"
+              style={{ fontSize: 'clamp(26px, 3.5vw, 44px)' }}
+            >
+              Three pillars.{' '}
+              <span className="italic" style={{ color: 'var(--mishri-gold)' }}>
+                No exceptions.
+              </span>
+            </h2>
           </div>
-          <div className="mt-10 lg:mt-14 grid md:grid-cols-3 gap-px" style={{ background: 'var(--mishri-border)' }}>
-            {[
-              ['01', 'Sourcing', 'Only A2 Sahiwal & native Bachaur cows. Free-grazing along the Gandak. No milk powder ever. Farmers paid 22% above mandi rate.'],
-              ['02', 'Process', 'Bilona ghee, not centrifuge. Matka-set dahi, not vat. Coal-reduced kulfi, not vanilla base.'],
-              ['03', 'Cold chain', 'Farm to your fridge in under 18 hours, never above 4°C. Tracked by sensor on every crate.'],
-            ].map(([n, t, d]) => (
-              <div key={n} className="p-8 lg:p-10" style={{ background: 'var(--mishri-bg)' }}>
-                <div className="font-display text-[56px] leading-none" style={{ color: 'var(--mishri-gold)' }}>{n}</div>
-                <h3 className="font-display italic text-[24px] mt-4">{t}</h3>
-                <p className="mt-3 text-[14.5px] leading-relaxed" style={{ color: 'var(--mishri-text-muted)' }}>{d}</p>
-              </div>
+
+          <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-5 lg:gap-8">
+            {pillars.map(({ icon: Icon, num, title, desc }) => (
+              <motion.article
+                key={num}
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-40px' }}
+                transition={{ duration: 0.55 }}
+                className="p-7 lg:p-10 rounded-[24px] relative overflow-hidden group hover:-translate-y-1 transition-transform"
+                style={{ background: 'var(--mishri-surface)', boxShadow: 'var(--shadow-md)' }}
+              >
+                <div
+                  className="size-12 rounded-2xl grid place-items-center mb-5"
+                  style={{ background: 'var(--mishri-gold)', color: 'var(--mishri-text-inverse)' }}
+                  aria-hidden="true"
+                >
+                  <Icon className="size-5" strokeWidth={1.8} />
+                </div>
+                <div
+                  className="font-display text-[56px] leading-none absolute top-6 right-6 select-none pointer-events-none"
+                  style={{ color: 'var(--mishri-gold)', opacity: 0.10 }}
+                  aria-hidden="true"
+                >
+                  {num}
+                </div>
+                <h3 className="font-display italic text-[22px] sm:text-[24px] mt-1">{title}</h3>
+                <p
+                  className="mt-3 text-[13.5px] leading-relaxed"
+                  style={{ color: 'var(--mishri-text-muted)' }}
+                >
+                  {desc}
+                </p>
+              </motion.article>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Farmers image strip */}
-      <section className="relative">
-        <div className="grid grid-cols-3 gap-1">
-          {[
-            'https://images.unsplash.com/photo-1767880408267-e9f64de1fe7a?w=1000&q=80',
-            'https://images.unsplash.com/photo-1608876537010-ac56d8731614?w=1000&q=80',
-            'https://images.unsplash.com/photo-1762884489391-bb410e8905d1?w=1000&q=80',
-          ].map((u, i) => (
-            <div key={i} className="aspect-[4/5] overflow-hidden">
-              <ImageWithFallback src={u} alt="Mishri farmer" className="w-full h-full object-cover hover:scale-105 transition-transform duration-1000"/>
-            </div>
-          ))}
+      {/* ─── Vision ─── */}
+      <section className="py-16 lg:py-24" aria-label="Our vision">
+        <div className="max-w-[800px] mx-auto px-5 lg:px-10 text-center">
+          <SectionLabel>Our Vision</SectionLabel>
+          <h2
+            className="font-display mt-4 text-balance"
+            style={{ fontSize: 'clamp(24px, 3.5vw, 42px)' }}
+          >
+            Bringing back the{' '}
+            <span className="italic" style={{ color: 'var(--mishri-gold)' }}>
+              forgotten purity
+            </span>
+          </h2>
+          <p
+            className="mt-6 text-[15px] sm:text-[16px] leading-[1.85] max-w-xl mx-auto"
+            style={{ color: 'var(--mishri-text-muted)' }}
+          >
+            In a world of processed food and industrial shortcuts, Aaharvedik stands
+            for something different. We believe that food should nourish, not just
+            fill. That tradition is not old-fashioned — it's timeless. And that every
+            family deserves dairy they can trust completely.
+          </p>
+          <div
+            className="mt-10 h-px w-14 mx-auto"
+            style={{ background: 'var(--mishri-gold)' }}
+            aria-hidden="true"
+          />
+          <blockquote
+            className="mt-8 font-display italic text-[20px] sm:text-[22px] leading-snug"
+            style={{ color: 'var(--mishri-gold)' }}
+          >
+            "जहाँ दूध शुद्ध होता है, वहाँ स्वास्थ्य भी शुद्ध होता है"
+          </blockquote>
+          <p className="mt-2 text-[11px] tracking-[0.2em] uppercase opacity-60">
+            Ancient Indian dairy wisdom
+          </p>
+
+          <Link
+            to="/products"
+            className="mt-10 inline-flex items-center gap-2 px-8 h-12 rounded-full text-[13px] tracking-[0.1em] uppercase font-semibold transition-all hover:gap-3 hover:opacity-90 active:scale-[0.97]"
+            style={{ background: 'var(--mishri-gold)', color: 'var(--mishri-text-inverse)' }}
+          >
+            Explore Our Range <ArrowRight className="size-4" />
+          </Link>
         </div>
       </section>
     </>

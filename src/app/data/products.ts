@@ -1,10 +1,10 @@
-export type Variant = { label: string; weight: string; price: number; was?: number };
+export type Variant = { label: string; weight: string; price?: number; was?: number };
 
 export type Product = {
   id: string;
   slug: string;
   name: string;
-  category: 'dahi' | 'ghee' | 'icecream';
+  category: 'ghee' | 'oil' | 'honey' | 'makhana';
   categoryLabel: string;
   tag: string;
   tagline: string;
@@ -21,132 +21,73 @@ export type Product = {
 export const products: Product[] = [
   {
     id: 'p1',
-    slug: 'fresh-set-dahi',
-    name: 'Fresh Set Dahi',
-    category: 'dahi',
-    categoryLabel: 'Dahi Range',
-    tag: 'PROBIOTIC CULTURE',
-    tagline: 'Morning-fresh, every day',
-    description: 'Hand-set in clay matkas with our heirloom culture. Thick, mildly tart, with the unmistakable cool weight of real dahi.',
-    image: 'https://images.unsplash.com/photo-1655740261900-08d04a0b85f9?w=1080&q=80',
-    variants: [
-      { label: '200g', weight: '200g', price: 45 },
-      { label: '400g', weight: '400g', price: 65, was: 75 },
-      { label: '1kg',  weight: '1kg',  price: 145 },
-    ],
-    rating: 4.8, reviews: 1240,
-    usps: ['Heirloom probiotic culture', 'Set in unglazed terracotta', 'No thickeners, no stabilisers', 'Cold-chain delivered'],
-    story: 'Cultured overnight in matkas hand-thrown by potters in Bhagwanpur, just outside Hajipur. The clay wicks whey slowly, giving Mishri dahi its signature standing thickness.',
+    slug: 'a2-bilona-ghee',
+    name: 'A2 Bilona Ghee',
+    category: 'ghee',
+    categoryLabel: 'Ghee Range',
+    tag: 'BILONA CHURNED',
+    tagline: 'Cultured from pure A2 milk and hand-churned before dawn.',
+    description: 'Our signature A2 Ghee is made using the traditional Bilona method. A2 milk from native cow breeds is cultured to curd, hand-churned in clay pots, and slow-boiled over charcoal to produce rich, granular, aromatic ghee.',
+    image: '',
+    variants: [{ label: '500ml', weight: '500ml' }, { label: '1L', weight: '1L' }],
+    rating: 4.9,
+    reviews: 320,
+    usps: ['A2 Desi Cow Milk only', 'Traditional wood Bilona', 'Slow charcoal flame cooked', 'No artificial colors or preservatives'],
+    story: 'Twelve liters of pure milk are churned to produce just one jar of this liquid gold.'
   },
   {
     id: 'p2',
-    slug: 'bilona-desi-ghee',
-    name: 'Desi Cow Ghee — Bilona',
-    category: 'ghee',
-    categoryLabel: 'Ghee Range',
-    tag: 'BILONA METHOD',
-    tagline: 'Slow-churned. Golden. Pure.',
-    description: 'A2 Sahiwal & Bachaur cow milk, cultured to curd, hand-churned with a wooden bilona, then simmered on slow flame until the ghee parts golden and clean.',
-    image: 'https://images.unsplash.com/photo-1573812461383-e5f8b759d12e?w=1080&q=80',
-    variants: [
-      { label: '250ml', weight: '250ml', price: 340 },
-      { label: '500ml', weight: '500ml', price: 620, was: 720 },
-      { label: '1L',    weight: '1L',    price: 1180 },
-    ],
-    rating: 4.9, reviews: 3402,
-    badge: 'BEST SELLER',
-    usps: ['A2 Sahiwal & Bachaur milk only', 'Traditional bilona — not centrifuge', 'No preservatives, no colour', 'FSSAI · ISO 9001:2015'],
-    story: 'Twelve litres of milk for every one litre of ghee. The bilona is the difference — slow rotation breaks the butter molecules cleanly, leaving an aroma you cannot fake.',
+    slug: 'kachi-ghani-sarso',
+    name: 'Kachi Ghani Sarso',
+    category: 'oil',
+    categoryLabel: 'Cold Pressed Oils',
+    tag: 'COLD PRESSED',
+    tagline: 'Cold-pressed mustard oil, preserving pungent aroma and nutrients.',
+    description: 'Extracted slowly in wooden pressers (Kachi Ghani) at low temperatures to retain its natural pungent aroma, deep color, and essential fatty acids. Perfect for traditional cooking and pickling.',
+    image: '',
+    variants: [{ label: '1L', weight: '1L' }],
+    rating: 4.8,
+    reviews: 180,
+    usps: ['100% pure mustard seed oil', 'Cold-pressed in wooden mills', 'Zero chemicals or mineral oil', 'Naturally high pungency'],
+    story: 'Cold-pressed at low temperatures to ensure all native enzymes and aroma stay intact.'
   },
   {
     id: 'p3',
-    slug: 'kesar-pista-kulfi',
-    name: 'Kesar Pista Kulfi',
-    category: 'icecream',
-    categoryLabel: 'Ice Cream Range',
-    tag: 'SUMMER SPECIAL',
-    tagline: 'Saffron, pistachio, slow reduced milk',
-    description: 'Milk reduced for four hours over coal, infused with Kashmiri kesar threads and slivers of pista. Set in kulhads thrown locally in Vaishali.',
-    image: 'https://images.unsplash.com/photo-1635700982428-c3698d2a3a80?w=1080&q=80',
-    variants: [
-      { label: '4 × kulhad', weight: '4 pcs', price: 280 },
-      { label: '6 × kulhad', weight: '6 pcs', price: 410 },
-      { label: 'Family tub 750ml', weight: '750ml', price: 520 },
-    ],
-    rating: 4.9, reviews: 892,
-    badge: 'NEW',
-    usps: ['Kashmiri Mongra saffron', 'Iranian pista, hand-slivered', 'No artificial flavours, no colour', 'Reduced milk base — no cream'],
-    story: 'We don’t make ice cream. We make kulfi — denser, slower, made the way every Patna street thela still makes it after midnight.',
+    slug: 'forest-raw-honey',
+    name: 'Forest Raw Honey',
+    category: 'honey',
+    categoryLabel: 'Raw Honey Range',
+    tag: '100% NATURAL',
+    tagline: 'Unfiltered nectar sourced straight from wild forest hives.',
+    description: 'Sourced directly from native honeycombs in deep deciduous forests. Wild, unfiltered, raw honey that tastes like the forest itself. Rich in natural pollens and antioxidants.',
+    image: '',
+    variants: [{ label: '250g', weight: '250g' }, { label: '500g', weight: '500g' }],
+    rating: 4.9,
+    reviews: 245,
+    usps: ['Raw and unfiltered honey', 'Sourced from wild forest hives', 'Zero added sugars or syrup', 'Naturally high in pollen'],
+    story: 'Harvested ethically in seasons when the forest wild flowers are at their peak.'
   },
   {
     id: 'p4',
-    slug: 'greek-strained-dahi',
-    name: 'Hung Greek-Style Dahi',
-    category: 'dahi',
-    categoryLabel: 'Dahi Range',
-    tag: 'HIGH PROTEIN',
-    tagline: 'Strained 8 hours. 11g protein per 100g.',
-    description: 'Our fresh dahi, slow-strained in muslin overnight. Thick enough to hold a spoon upright.',
-    image: 'https://images.unsplash.com/photo-1680764955303-81618ecb67b5?w=1080&q=80',
-    variants: [
-      { label: '180g', weight: '180g', price: 95 },
-      { label: '400g', weight: '400g', price: 195 },
-    ],
-    rating: 4.7, reviews: 612,
-    usps: ['11g protein per 100g', 'No added milk powder', 'Live cultures, slow strained', 'Perfect for raita & marinades'],
-    story: 'No shortcuts. We strain whole batches in muslin overnight — no powdered protein, no thickeners, no “Greek-style” gimmicks.',
-  },
-  {
-    id: 'p5',
-    slug: 'cultured-white-butter',
-    name: 'Cultured White Butter (Makhan)',
-    category: 'ghee',
-    categoryLabel: 'Ghee Range',
-    tag: 'HAND CHURNED',
-    tagline: 'The makhan before the ghee',
-    description: 'The same hand-churned makhan we cook into ghee — now available unsalted, untouched, the way Krishna would have it.',
-    image: 'https://images.unsplash.com/photo-1707424963059-6a7a559cae28?w=1080&q=80',
-    variants: [
-      { label: '200g', weight: '200g', price: 240 },
-      { label: '400g', weight: '400g', price: 460 },
-    ],
-    rating: 4.8, reviews: 451,
-    badge: 'LIMITED',
-    usps: ['Hand-churned bilona makhan', 'Unsalted, uncoloured', 'Made-to-order weekly', 'Cold-chain under 4°C'],
-    story: 'We only churn what we know we can deliver fresh that week. Orders close every Wednesday night.',
-  },
-  {
-    id: 'p6',
-    slug: 'malai-kulfi-bar',
-    name: 'Original Malai Kulfi Bars',
-    category: 'icecream',
-    categoryLabel: 'Ice Cream Range',
-    tag: 'CLASSIC',
-    tagline: 'Just reduced milk. Just sugar. Nothing else.',
-    description: 'Three ingredients, four hours of reduction. The cleanest kulfi you’ll ever taste.',
-    image: 'https://images.unsplash.com/photo-1669200236241-7c365035612a?w=1080&q=80',
-    variants: [
-      { label: '6 bars', weight: '6 × 60ml', price: 240 },
-      { label: '12 bars', weight: '12 × 60ml', price: 460 },
-    ],
-    rating: 4.9, reviews: 1320,
-    usps: ['3 ingredients only', 'No emulsifiers, no stabilisers', 'Slow reduced over coal flame', 'Wrapped in compostable kraft'],
-    story: 'Our founder’s nani made this every summer in Hajipur for the entire mohalla. The recipe hasn’t changed since 1972 — we just write it down now.',
-  },
-];
-
-export const testimonials = [
-  { name: 'Priya Sinha', city: 'Patna', quote: 'The dahi tastes exactly like my nani used to set in Hajipur in the 80s. I haven’t bought from anyone else since the launch.', avatar: 'https://images.unsplash.com/photo-1533128361669-69c065857a13?w=200&q=80' },
-  { name: 'Rajesh Choudhary', city: 'Muzaffarpur', quote: 'I gave a jar of the bilona ghee to my mother. She called me asking where I found it. That is the only review that matters.', avatar: 'https://images.unsplash.com/photo-1625665965959-82a419ddf0d9?w=200&q=80' },
-  { name: 'Kavita Jha', city: 'Darbhanga', quote: 'My toddler refuses store dahi now. He will only eat Mishri. We are stuck for life.', avatar: 'https://images.unsplash.com/photo-1463335361701-e90f4c5045d0?w=200&q=80' },
-  { name: 'Dr. Anil Prasad', city: 'Hajipur', quote: 'Cold chain is real. The dahi arrives at 4°C, every single time. As a doctor, that is what convinced me.', avatar: 'https://images.unsplash.com/photo-1696371269777-88d1ce71642c?w=200&q=80' },
-  { name: 'Deepa Ranjan', city: 'Bhagalpur', quote: 'The kesar kulfi made me cry. It tastes like my wedding in 1998. Thank you for keeping this alive.', avatar: 'https://images.unsplash.com/photo-1516239482977-b550ba7253f2?w=200&q=80' },
+    slug: 'fresh-makhana',
+    name: 'Fresh Makhana',
+    category: 'makhana',
+    categoryLabel: 'Premium Superfoods',
+    tag: 'HAND ROASTED',
+    tagline: 'Crispy, hand-roasted lotus seeds packed with protein and antioxidants.',
+    description: 'Premium phool makhana (fox nuts) gently roasted to perfection. A light, wholesome, and crunchy snack that serves as an excellent source of calcium and protein. Perfect for anytime munching.',
+    image: '',
+    variants: [{ label: '250g', weight: '250g' }, { label: '500g', weight: '500g' }],
+    rating: 4.9,
+    reviews: 190,
+    usps: ['100% natural lotus seeds', 'Roasted to perfection', 'Rich in calcium & protein', 'No artificial flavors'],
+    story: 'Sourced directly from native lotus ponds and hand-roasted in small batches to preserve their natural crunch and nutritional value.'
+  }
 ];
 
 export const processSteps = [
-  { num: '01', title: 'Ethical Grazing', body: 'Free-range Sahiwal & native Bachaur cows on Vaishali pasture along the Gandak. Eighteen farmers, no middlemen.' },
-  { num: '02', title: 'Quality Testing', body: 'Every batch tested for fat %, SNF, antibiotic residue and bacteria count before it enters our facility.' },
-  { num: '03', title: 'Traditional Methods', body: 'Bilona-churned ghee, hand-set dahi cultures, slow-reduced kulfi base. No centrifuges, no shortcuts.' },
-  { num: '04', title: 'Cold Chain', body: 'Farm to facility in under four hours, held continuously below 4°C until your doorstep.' },
-  { num: '05', title: 'Delivered Fresh', body: 'Morning collection, afternoon delivery across Hajipur, Patna, Muzaffarpur, Darbhanga and Bhagalpur.' },
+  { num: '01', title: 'Ethical Grazing', body: 'Free-range native cows on natural pastures. Trusted farmers, no middlemen.' },
+  { num: '02', title: 'Quality Testing', body: 'Every batch tested for purity, fat content, and antibiotic residue.' },
+  { num: '03', title: 'Traditional Methods', body: 'Bilona-churned ghee, cold-pressed oils, and raw wild honey.' },
+  { num: '04', title: 'Delivered Fresh', body: 'Freshly prepared batches shipped immediately to retain natural nutrients.' }
 ];

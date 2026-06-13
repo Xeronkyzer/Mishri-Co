@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Extract Logo</title>
+</head>
+<body>
+  <h1>Extracting Logo...</h1>
+  <canvas id="canvas"></canvas>
+  <textarea id="logo-base64" style="width: 100%; height: 300px;"></textarea>
+  <script>
+    const img = new Image();
+    img.src = 'logo-original.png';
+    img.onload = () => {
+      const canvas = document.getElementById('canvas');
+      const ctx = canvas.getContext('2d');
+      canvas.width = img.width;
+      canvas.height = img.height;
+      ctx.drawImage(img, 0, 0);
+
+      const imgData = ctx.getImageData(0, 0, img.width, img.height);
+      const data = imgData.data;
+
+      // Define logo region bounds (to avoid shadows in the corners)
+      const minX = 200, maxX = 824;
+      const minY = 150, maxY = 423;
+
+      // Sample background color from a corner of the region (e.g. at 200, 150)
+      const bgIndex = (150 * img.width + 200) * 4;
+      const bgR = data[bgIndex];
+      const bgG = data[bgIndex + 1];
+      const bgB = data[bgIndex + 2];
+
+      console.log('Background Color:', bgR, bgG, bgB);
+
+      // Find bounding box of non-background pixels in the logo region
+      let left = maxX, right = minX, top = maxY, bottom = minY;
+      const threshold = 35; // color distance threshold
+
+      for (let y = minY; y < maxY; y++) {
+        for (let x = minX; x < maxX; x++) {
+          const idx = (y * img.width + x) * 4;
+          const r = data[idx];
+          const g = data[idx + 1];
+          const b = data[idx + 2];
+
+          // Compute color distance
+          const dist = Math.sqrt((r - bgR) ** 2 + (g - bgG) ** 2 + (b - bgB) ** 2);
+          if (dist > threshold) {
+            if (x < left) left = x;
+            if (x > right) right = x;
+            if (y < top) top = y;
+            if (y > bottom) bottom = y;
+          }
+        }
+      }
+
+      console.log('Logo Bounding Box:', left, top, right, bottom);
+
+      // Crop and make background transparent
+      const cropW = right - left + 1;
+      const cropH = bottom - top + 1;
+
+      const cropCanvas = document.createElement('canvas');
+      cropCanvas.width = cropW;
+      cropCanvas.height = cropH;
+      const cropCtx = cropCanvas.getContext('2d');
+
+      const cropImgData = ctx.getImageData(left, top, cropW, cropH);
+      const cropData = cropImgData.data;
+
+      for (let i = 0; i < cropData.length; i += 4) {
+        const r = cropData[i];
+        const g = cropData[i + 1];
+        const b = cropData[i + 2];
+        const dist = Math.sqrt((r - bgR) ** 2 + (g - bgG) ** 2 + (b - bgB) ** 2);
+        if (dist <= threshold) {
+          // Make it transparent
+          cropData[i + 3] = 0;
+        } else {
+          // Antialiasing: blend opacity based on distance from background
+          const alpha = Math.min(255, (dist - threshold) * 8);
+          cropData[i + 3] = alpha;
+        }
+      }
+
+      cropCtx.putImageData(cropImgData, 0, 0);
+      document.getElementById('logo-base64').value = cropCanvas.toDataURL('image/png');
+      console.log('Logo extracted successfully!');
+    };
+  </script>
+</body>
+</html>
